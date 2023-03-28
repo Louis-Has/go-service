@@ -1,0 +1,16 @@
+Port: 8090
+Host: "192.168.1.1"
+
+
+
+MYSQL:
+  Name: mysql
+  Host: localhost
+  Database: article
+  Username: root
+  Password: development
+  Port: 3406
+redis:
+  host: 127.0.0.1
+  port: 4405
+yaml: this is a example of yaml

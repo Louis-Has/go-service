@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: development
+      MYSQL_DATABASE: article
+    ports:
+      - 3406:3306
+    networks:
+      - share-network
+
+# Define a network, which allows containers to communicate
+# with each other, by using their container name as a hostname
+networks:
+  share-network:
+    external: true
