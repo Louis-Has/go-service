@@ -12,7 +12,8 @@ func init() {
 
 func main() {
 	router := gin.Default()
-	Controllers.ControlRouter(router) //mount Router
+
+	Controllers.CoreControl(router)
 
 	if err := router.Run(); err != nil {
 		return

@@ -6,6 +6,7 @@ import (
 	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/gorm/schema"
 )
 
 type Config struct {
@@ -51,7 +52,11 @@ func InitMysql() {
 		config.MYSQL.Database,
 	)
 
-	Db, DBError = gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	Db, DBError = gorm.Open(mysql.Open(dsn), &gorm.Config{
+		NamingStrategy: schema.NamingStrategy{
+			SingularTable: true,
+		},
+	})
 
 	if DBError != nil {
 		fmt.Printf(color.InRed("db error!"), color.InRed(DBError))
@@ -59,7 +64,7 @@ func InitMysql() {
 		fmt.Println(color.InGreen(fmt.Sprintf("%s connect Success", config.MYSQL.Name)))
 	}
 
-	if err := Db.AutoMigrate(&Article{}); err != nil {
+	if err := Db.AutoMigrate(&Article{}, &AuthorMes{}); err != nil {
 		fmt.Println(color.InRed(err))
 		return
 	}
