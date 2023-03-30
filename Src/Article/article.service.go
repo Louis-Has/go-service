@@ -1,22 +1,23 @@
-package Services
+package Article
 
 import (
 	"github.com/gin-gonic/gin"
+	"go-service/Common"
 	"go-service/Models"
 )
 
-type ArticleService struct {
-	BaseService
+type Service struct {
+	Common.BaseService
 }
 
-func (receiver ArticleService) GetAll(ctx *gin.Context) {
+func (receiver Service) GetAll(ctx *gin.Context) {
 	var result []Models.Article
 	Models.Db.Model(&Models.Article{}).Find(&result)
 
 	receiver.Success(ctx, result)
 }
 
-func (receiver ArticleService) Inset(ctx *gin.Context) {
+func (receiver Service) Inset(ctx *gin.Context) {
 	result := Models.Article{}
 
 	if err := ctx.ShouldBind(&result); err == nil {
@@ -36,14 +37,14 @@ func (receiver ArticleService) Inset(ctx *gin.Context) {
 	}
 }
 
-func (receiver ArticleService) GetTmp(ctx *gin.Context) {
+func (receiver Service) GetTmp(ctx *gin.Context) {
 	var result []Models.Article
 
 	Models.Db.Model(&Models.Article{}).Offset(2).Limit(5).Find(&result)
 	receiver.Success(ctx, result)
 }
 
-func (receiver ArticleService) GroupBy(ctx *gin.Context) {
+func (receiver Service) GroupBy(ctx *gin.Context) {
 	type Group struct {
 		Author string `json:"author"`
 		Total  int    `json:"total"`

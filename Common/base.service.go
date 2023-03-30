@@ -1,4 +1,4 @@
-package Services
+package Common
 
 import "github.com/gin-gonic/gin"
 
