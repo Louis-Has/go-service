@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"go-service/Common"
 	"go-service/Models"
+	"go-service/Src"
 )
 
 func init() {
@@ -13,7 +13,7 @@ func init() {
 func main() {
 	router := gin.Default()
 
-	Common.CoreControl(router)
+	Src.CoreControl(router)
 
 	if err := router.Run(); err != nil {
 		return
