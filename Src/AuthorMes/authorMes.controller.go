@@ -10,5 +10,7 @@ func Control(r *gin.Engine) {
 	{
 		rGroup.GET("", Service{}.GetAll)
 		rGroup.POST("", Service{}.Inset)
+		rGroup.POST("/redis", Service{}.TestRedis)
+		rGroup.POST("/redisList", Service{}.TestList)
 	}
 }

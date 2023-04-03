@@ -1,18 +1,22 @@
 package Models
 
 import (
+	"context"
 	"fmt"
 	"github.com/TwiN/go-color"
+	"github.com/redis/go-redis/v9"
 	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
+	"time"
 )
 
 type Config struct {
 	Port int
 	Host string
 	MYSQL
+	Redis
 }
 
 type MYSQL struct {
@@ -20,9 +24,16 @@ type MYSQL struct {
 	Port                                     int
 }
 
+type Redis struct {
+	Host, Name string
+	Port       int
+}
+
 var config Config
 
 var Db *gorm.DB
+
+var Rdb *redis.Client
 
 func InitMysql() {
 	viper.AddConfigPath("./Conf")
@@ -39,7 +50,7 @@ func InitMysql() {
 		return
 	}
 
-	fmt.Println(color.InGreen("config load Success"), color.InCyan(config))
+	//fmt.Println(color.InGreen("config load Success"), color.InCyan(config))
 
 	// db
 	var DBError error
@@ -69,4 +80,19 @@ func InitMysql() {
 		return
 	}
 
+	Rdb = redis.NewClient(&redis.Options{
+		Addr:     fmt.Sprintf("%v:%v", config.Redis.Host, config.Redis.Port),
+		Password: "",
+		DB:       0,
+	})
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
+	defer cancel()
+	_, err := Rdb.Ping(ctx).Result()
+	if err != nil {
+		fmt.Println(color.InRed(fmt.Sprintf("Connect Failed:%s", err)))
+		panic(err)
+	} else {
+		fmt.Println(color.InGreen(fmt.Sprintf("%s connect Success", config.Redis.Name)))
+	}
 }

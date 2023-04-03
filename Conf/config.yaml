@@ -9,8 +9,9 @@ MYSQL:
   Database: article
   Username: root
   Password: development
-  Port: 3406
-redis:
-  host: 127.0.0.1
-  port: 4405
-yaml: this is a example of yaml
+  Port: 3306
+Redis:
+  Name: redis
+  Host: localhost
+  Port: 6379
+#yaml: this is a example of yaml

@@ -15,5 +15,5 @@ type AuthorMes struct {
 	gorm.Model
 	Author       string `form:"author" json:"author" gorm:"default:author;uniqueIndex"`
 	SignedPerson bool   `form:"signed_person" json:"signed_person" gorm:"default:false"`
-	Cash         int    `form:"cash" json:"cash"`
+	Cash         int    `form:"cash" json:"cash" validate:"required"`
 }

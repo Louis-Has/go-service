@@ -14,6 +14,7 @@ func (con BaseService) Success(ctx *gin.Context, data interface{}) {
 		"data":    data,
 		"error":   nil,
 	})
+	return
 }
 
 func (con BaseService) Fail(ctx *gin.Context, err interface{}) {
@@ -23,4 +24,5 @@ func (con BaseService) Fail(ctx *gin.Context, err interface{}) {
 		"data":    nil,
 		"error":   err,
 	})
+	return
 }

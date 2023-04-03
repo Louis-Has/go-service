@@ -4,18 +4,35 @@ services:
 
   db:
     image: mysql
+    container_name: mysql
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: development
       MYSQL_DATABASE: article
     ports:
-      - 3406:3306
+      - 3306:3306
     networks:
       - share-network
 
+  redis:
+    image: redis/redis-stack:latest
+    container_name: redis-stack
+    restart: always
+    volumes:
+      - ~/local-data/redis/data:/data
+      - ~/local-data/redis/logs:/logs
+#      # 注意这里需要先  /usr/local/app/redis/conf  新建redis.conf文件  redis.conf文件可从http://www.redis.cn/下载
+#      - /usr/local/app/redis/conf/redis.conf:/usr/local/etc/redis/redis.conf
+#      - /usr/local/app/redis/logs:/logs
+    #    command:
+    #      # 以配置文件的方式启动 redis.conf
+    #      redis-server /usr/local/etc/redis/redis.conf
+    ports:
+      - 6379:6379
+      - 8001:8001
 # Define a network, which allows containers to communicate
 # with each other, by using their container name as a hostname
 networks:
   share-network:
-    external: true
+#    external: true
