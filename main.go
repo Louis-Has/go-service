@@ -15,7 +15,7 @@ func main() {
 
 	Src.CoreControl(router)
 
-	if err := router.Run(); err != nil {
+	if err := router.Run(":8080"); err != nil {
 		return
 	}
 }

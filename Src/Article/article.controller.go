@@ -9,9 +9,9 @@ func Control(r *gin.Engine) {
 	rGroup := r.Group("/article")
 
 	{
-		rGroup.GET("", Service{}.GetAll)
-		rGroup.POST("", Service{}.Inset)
-		rGroup.GET("/limit", Service{}.GetTmp)
-		rGroup.GET("/group", Service{}.GroupBy)
+		rGroup.GET("", GetAll)
+		rGroup.POST("", Inset)
+		rGroup.GET("/limit", GetTmp)
+		rGroup.GET("/group", GroupBy)
 	}
 }

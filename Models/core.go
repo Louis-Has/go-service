@@ -9,6 +9,7 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
+	"log"
 	"time"
 )
 
@@ -41,16 +42,16 @@ func InitMysql() {
 	viper.SetConfigType("yaml")
 
 	if err := viper.ReadInConfig(); err != nil { // configure config
-		fmt.Println(color.InRed(err))
+		log.Println(color.InRed(err))
 		return
 	}
 
 	if err := viper.Unmarshal(&config); err != nil {
-		fmt.Println(color.InRed(err))
+		log.Println(color.InRed(err))
 		return
 	}
 
-	//fmt.Println(color.InGreen("config load Success"), color.InCyan(config))
+	//log.Println(color.InGreen("config load Success"), color.InCyan(config))
 
 	// db
 	var DBError error
@@ -70,13 +71,13 @@ func InitMysql() {
 	})
 
 	if DBError != nil {
-		fmt.Printf(color.InRed("db error!"), color.InRed(DBError))
+		log.Printf(color.InRed("db error!"), color.InRed(DBError))
 	} else {
-		fmt.Println(color.InGreen(fmt.Sprintf("%s connect Success", config.MYSQL.Name)))
+		log.Println(color.InGreen(fmt.Sprintf("%s connect Success", config.MYSQL.Name)))
 	}
 
 	if err := Db.AutoMigrate(&Article{}, &AuthorMes{}); err != nil {
-		fmt.Println(color.InRed(err))
+		log.Println(color.InRed(err))
 		return
 	}
 
@@ -90,9 +91,9 @@ func InitMysql() {
 	defer cancel()
 	_, err := Rdb.Ping(ctx).Result()
 	if err != nil {
-		fmt.Println(color.InRed(fmt.Sprintf("Connect Failed:%s", err)))
+		log.Println(color.InRed(fmt.Sprintf("Connect Failed:%s", err)))
 		panic(err)
 	} else {
-		fmt.Println(color.InGreen(fmt.Sprintf("%s connect Success", config.Redis.Name)))
+		log.Println(color.InGreen(fmt.Sprintf("%s connect Success", config.Redis.Name)))
 	}
 }

@@ -5,12 +5,12 @@ import (
 )
 
 func Control(r *gin.Engine) {
-	rGroup := r.Group("/author")
 
+	rGroup := r.Group("/author")
 	{
-		rGroup.GET("", Service{}.GetAll)
-		rGroup.POST("", Service{}.Inset)
-		rGroup.POST("/redis", Service{}.TestRedis)
-		rGroup.POST("/redisList", Service{}.TestList)
+		rGroup.GET("", GetAll)
+		rGroup.POST("", Inset)
+		rGroup.POST("/redis", TestRedis)
+		rGroup.POST("/redisList", TestList)
 	}
 }

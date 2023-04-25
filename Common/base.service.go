@@ -5,9 +5,7 @@ import (
 	"net/http"
 )
 
-type BaseService struct{}
-
-func (con BaseService) Success(ctx *gin.Context, data interface{}) {
+func Success(ctx *gin.Context, data interface{}) {
 
 	ctx.JSON(http.StatusOK, gin.H{
 		"success": true,
@@ -17,7 +15,7 @@ func (con BaseService) Success(ctx *gin.Context, data interface{}) {
 	return
 }
 
-func (con BaseService) Fail(ctx *gin.Context, err interface{}) {
+func Fail(ctx *gin.Context, err interface{}) {
 
 	ctx.JSON(http.StatusOK, gin.H{
 		"success": true,

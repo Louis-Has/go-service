@@ -10,6 +10,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: development
       MYSQL_DATABASE: article
+    volumes:
+      - ~/local-data/mysql/data:/var/lib/mysql
     ports:
       - 3306:3306
     networks:
@@ -22,12 +24,7 @@ services:
     volumes:
       - ~/local-data/redis/data:/data
       - ~/local-data/redis/logs:/logs
-#      # 注意这里需要先  /usr/local/app/redis/conf  新建redis.conf文件  redis.conf文件可从http://www.redis.cn/下载
-#      - /usr/local/app/redis/conf/redis.conf:/usr/local/etc/redis/redis.conf
-#      - /usr/local/app/redis/logs:/logs
-    #    command:
-    #      # 以配置文件的方式启动 redis.conf
-    #      redis-server /usr/local/etc/redis/redis.conf
+      - ~/local-data/redis/local-redis-stack.conf:/redis-stack.conf
     ports:
       - 6379:6379
       - 8001:8001
