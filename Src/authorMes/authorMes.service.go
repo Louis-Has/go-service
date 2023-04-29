@@ -1,4 +1,4 @@
-package AuthorMes
+package authorMes
 
 import (
 	"github.com/gin-gonic/gin"

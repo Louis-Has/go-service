@@ -1,4 +1,4 @@
-package Article
+package authorMes
 
 import (
 	"github.com/gin-gonic/gin"
@@ -6,12 +6,11 @@ import (
 
 func Control(r *gin.Engine) {
 
-	rGroup := r.Group("/article")
-
+	rGroup := r.Group("/author")
 	{
 		rGroup.GET("", GetAll)
 		rGroup.POST("", Inset)
-		rGroup.GET("/limit", GetTmp)
-		rGroup.GET("/group", GroupBy)
+		rGroup.POST("/redis", TestRedis)
+		rGroup.POST("/redisList", TestList)
 	}
 }

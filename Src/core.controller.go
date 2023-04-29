@@ -2,13 +2,13 @@ package Src
 
 import (
 	"github.com/gin-gonic/gin"
-	"go-service/Src/Article"
-	"go-service/Src/AuthorMes"
+	"go-service/Src/article"
+	"go-service/Src/authorMes"
 )
 
 func CoreControl(r *gin.Engine) {
 
-	Article.Control(r)
-	AuthorMes.Control(r)
+	article.Control(r)
+	authorMes.Control(r)
 
 }
