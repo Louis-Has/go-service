@@ -36,6 +36,8 @@ func CurrentMonthDays() float64 {
 	return GetLastDay().Sub(GetFirstDay()).Hours() / 24
 }
 
-func GetMonthDays(m int) float64 {
-	return GetLastDay().AddDate(0, m, 0).Sub(GetFirstDay().AddDate(0, m, 0)).Hours() / 24
+func GetMonthDays(m int) (int, float64) {
+	startTime := GetFirstDay().AddDate(0, m, 0)
+	endTime := GetLastDay().AddDate(0, m, 0)
+	return int(startTime.Month()), endTime.Sub(startTime).Hours() / 24
 }
