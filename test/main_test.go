@@ -1,8 +1,8 @@
-package Test
+package test
 
 import (
 	"fmt"
-	"go-service/Common/utils"
+	"go-service/common/utils"
 	"testing"
 	"time"
 )
@@ -60,5 +60,5 @@ func TestResume(t *testing.T) {
 	fmt.Println(generateInteger())
 	fmt.Println(generateInteger())
 	fmt.Println(generateInteger())
-	fmt.Println(generateInteger())
+	fmt.Println(generateInteger(), 6)
 }

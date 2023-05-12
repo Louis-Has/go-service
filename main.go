@@ -2,18 +2,18 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"go-service/Models"
-	"go-service/Src"
+	"go-service/models"
+	"go-service/src"
 )
 
 func init() {
-	Models.InitMysql()
+	models.InitMysql()
 }
 
 func main() {
 	router := gin.Default()
 
-	Src.CoreControl(router)
+	src.CoreControl(router)
 
 	if err := router.Run(":8080"); err != nil {
 		return

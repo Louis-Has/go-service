@@ -1,9 +1,9 @@
-package Src
+package src
 
 import (
 	"github.com/gin-gonic/gin"
-	"go-service/Src/article"
-	"go-service/Src/authorMes"
+	"go-service/src/article"
+	"go-service/src/authorMes"
 )
 
 func CoreControl(r *gin.Engine) {

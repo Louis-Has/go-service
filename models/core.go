@@ -1,4 +1,4 @@
-package Models
+package models
 
 import (
 	"context"
@@ -37,7 +37,7 @@ var Db *gorm.DB
 var Rdb *redis.Client
 
 func InitMysql() {
-	viper.AddConfigPath("./Conf")
+	viper.AddConfigPath("./conf")
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
 
