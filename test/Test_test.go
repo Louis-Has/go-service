@@ -65,6 +65,6 @@ func TestResume(t *testing.T) {
 }
 
 func TestSelectionSort(t *testing.T) {
-	sortSlice := []int{22, 4, 5, 86, 1, 45, 23, 7, 66, 2}
+	sortSlice := []int{22, 4, 5, 86, 1, 45, 23, 7, 66, 2, 47, 125, 231}
 	fmt.Println(sorts.SelectionSort(sortSlice))
 }
