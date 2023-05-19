@@ -1,8 +1,9 @@
-package test
+package main
 
 import (
 	"fmt"
 	"go-service/common/utils"
+	"go-service/sorts"
 	"testing"
 	"time"
 )
@@ -61,4 +62,9 @@ func TestResume(t *testing.T) {
 	fmt.Println(generateInteger())
 	fmt.Println(generateInteger())
 	fmt.Println(generateInteger(), 6)
+}
+
+func TestSelectionSort(t *testing.T) {
+	sortSlice := []int{22, 4, 5, 86, 1, 45, 23, 7, 66, 2}
+	fmt.Println(sorts.SelectionSort(sortSlice))
 }
