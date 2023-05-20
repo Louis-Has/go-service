@@ -4,7 +4,7 @@ import (
 	"math/rand"
 )
 
-// SelectionSort 选择排序 (selection sort) O(n^2)
+// SelectionSort 选择排序 (selection sort) O(n^2) O(1) 不稳定
 func SelectionSort(arr []int) []int {
 
 	for i := 0; i < len(arr); i++ {
@@ -21,7 +21,7 @@ func SelectionSort(arr []int) []int {
 	return arr
 }
 
-// bubbleSort 冒泡排序 (bubble sort) O(n^2)
+// bubbleSort 冒泡排序 (bubble sort) O(n^2)->O(n) O(1) 稳定
 func bubbleSort(arr []int) []int {
 	swapped := true
 
@@ -38,15 +38,15 @@ func bubbleSort(arr []int) []int {
 	return arr
 }
 
-// InsertionSort 插入排序 (insertion sort) O(n^2)/2
+// InsertionSort 插入排序 (insertion sort) O(n^2)->O(n) O(1) 稳定
 func InsertionSort(arr []int) []int {
 	for i := 1; i < len(arr); i++ {
-		tmp := arr[i]
+		tmpArr := arr[i]
 		j := i
-		for ; j > 0 && arr[j-1] >= tmp; j-- {
+		for ; j > 0 && arr[j-1] >= tmpArr; j-- {
 			arr[j] = arr[j-1]
 		}
-		arr[j] = tmp
+		arr[j] = tmpArr
 	}
 	return arr
 }
@@ -63,6 +63,7 @@ func ShellSort(arr []int) []int {
 	return arr
 }
 
+// 归并排序 (merge sort)
 func merge(a []int, b []int) []int {
 
 	var r = make([]int, len(a)+len(b))
@@ -94,7 +95,7 @@ func merge(a []int, b []int) []int {
 
 }
 
-// Mergesort 归并排序 (merge sort) 合并两个数组 O(N/logN)
+// Mergesort 合并两个数组 O(N/logN)
 func Mergesort(items []int) []int {
 
 	if len(items) < 2 {
@@ -140,4 +141,46 @@ func QuickSort(arr []int) []int {
 	lowPart = append(lowPart, highPart...)
 
 	return lowPart
+}
+
+// 堆排序 (heap sort)
+type maxHeap struct {
+	slice    []int
+	heapSize int
+}
+
+func buildMaxHeap(slice []int) maxHeap {
+	h := maxHeap{slice: slice, heapSize: len(slice)}
+	for i := len(slice) / 2; i >= 0; i-- {
+		h.MaxHeapify(i)
+	}
+	return h
+}
+
+func (h maxHeap) MaxHeapify(i int) {
+	l, r := 2*i+1, 2*i+2
+	max := i
+
+	if l < h.size() && h.slice[l] > h.slice[max] {
+		max = l
+	}
+	if r < h.size() && h.slice[r] > h.slice[max] {
+		max = r
+	}
+	if max != i {
+		h.slice[i], h.slice[max] = h.slice[max], h.slice[i]
+		h.MaxHeapify(max)
+	}
+}
+
+func (h maxHeap) size() int { return h.heapSize }
+
+func HeapSort(slice []int) []int {
+	h := buildMaxHeap(slice)
+	for i := len(h.slice) - 1; i >= 1; i-- {
+		h.slice[0], h.slice[i] = h.slice[i], h.slice[0]
+		h.heapSize--
+		h.MaxHeapify(0)
+	}
+	return h.slice
 }
