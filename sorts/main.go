@@ -51,7 +51,7 @@ func InsertionSort(arr []int) []int {
 	return arr
 }
 
-// ShellSort 希尔排序 (shell sort) O(n^2)/2
+// ShellSort 希尔排序 (shell sort) O(n^2)->O(n) O(1) 不稳定
 func ShellSort(arr []int) []int {
 	for d := int(len(arr) / 2); d > 0; d /= 2 {
 		for i := d; i < len(arr); i++ {
@@ -63,7 +63,7 @@ func ShellSort(arr []int) []int {
 	return arr
 }
 
-// 归并排序 (merge sort)
+// 归并排序 (merge sort) O(logN) O(N) 稳定
 func merge(a []int, b []int) []int {
 
 	var r = make([]int, len(a)+len(b))
@@ -110,7 +110,7 @@ func Mergesort(items []int) []int {
 
 }
 
-// QuickSort 三向切分快速排序 (quick sort) O(n^2) O(log2N)
+// QuickSort 三向切分快速排序 (quick sort) O(logN)->O(N^2) O(log2N) 不稳定
 func QuickSort(arr []int) []int {
 
 	if len(arr) <= 1 {
@@ -175,6 +175,7 @@ func (h maxHeap) MaxHeapify(i int) {
 
 func (h maxHeap) size() int { return h.heapSize }
 
+// HeapSort O(logN) O(1) 不稳定
 func HeapSort(slice []int) []int {
 	h := buildMaxHeap(slice)
 	for i := len(h.slice) - 1; i >= 1; i-- {
