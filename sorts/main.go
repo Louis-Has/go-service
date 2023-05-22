@@ -21,8 +21,8 @@ func SelectionSort(arr []int) []int {
 	return arr
 }
 
-// bubbleSort 冒泡排序 (bubble sort) O(n^2)->O(n) O(1) 稳定
-func bubbleSort(arr []int) []int {
+// BubbleSort 冒泡排序 (bubble sort) O(n^2)->O(n) O(1) 稳定
+func BubbleSort(arr []int) []int {
 	swapped := true
 
 	for swapped {
@@ -160,16 +160,17 @@ func buildMaxHeap(slice []int) maxHeap {
 func (h maxHeap) MaxHeapify(i int) {
 	l, r := 2*i+1, 2*i+2
 	max := i
+	size := h.size()
 
-	if l < h.size() && h.slice[l] > h.slice[max] {
+	if l < size && h.slice[l] > h.slice[max] {
 		max = l
 	}
-	if r < h.size() && h.slice[r] > h.slice[max] {
+	if r < size && h.slice[r] > h.slice[max] {
 		max = r
 	}
 	if max != i {
 		h.slice[i], h.slice[max] = h.slice[max], h.slice[i]
-		h.MaxHeapify(max)
+		h.MaxHeapify(max) // important
 	}
 }
 
