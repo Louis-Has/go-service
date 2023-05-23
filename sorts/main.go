@@ -186,3 +186,10 @@ func HeapSort(slice []int) []int {
 	}
 	return h.slice
 }
+
+// 计数排序（Counting Sort） O(n) O(n)
+// 输入的数据必须是有确定范围的整数
+
+// 桶排序（Bucket Sort）O(n) O(n)
+
+// 基数排序（Radix Sort）O(n) O(n)

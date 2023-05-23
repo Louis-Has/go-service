@@ -77,9 +77,9 @@ func TestSelectionSort(t *testing.T) {
 type sortFunc func([]int) []int
 
 func testFunc(f sortFunc, funcName string) {
-	sortSlice := []int{22, 4, 6, 8, 9, 9, 32, 17, 13, 5, 86, 1, 45, 23, 7, 66, 2, 47, 125, 231}
+	sortSlice := []int{22, 4, 8, 9, 32, 17, 13, 5, 86, 1, 45, 23, 7, 66, 2, 47, 125, 231}
 
 	now := time.Now()
 	result := f(sortSlice)
-	fmt.Printf("func %v spend time %v\n result %v\n\n", funcName, time.Since(now), result)
+	fmt.Printf("func %v spend time %v\nresult %v\n\n", funcName, time.Since(now), result)
 }
