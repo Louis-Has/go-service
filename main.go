@@ -2,12 +2,10 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"go-service/models"
 	"go-service/src"
 )
 
 func init() {
-	models.InitMysql()
 }
 
 func main() {

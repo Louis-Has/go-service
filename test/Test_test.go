@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"go-service/common/utils"
 	"go-service/sorts"
+	"math/rand"
 	"testing"
 	"time"
 )
@@ -65,21 +66,31 @@ func TestResume(t *testing.T) {
 }
 
 func TestSelectionSort(t *testing.T) {
-	testFunc(sorts.SelectionSort, "SelectionSort")
-	testFunc(sorts.BubbleSort, "BubbleSort")
-	testFunc(sorts.InsertionSort, "InsertionSort")
-	testFunc(sorts.ShellSort, "ShellSort")
-	testFunc(sorts.Mergesort, "Mergesort")
-	testFunc(sorts.QuickSort, "QuickSort")
-	testFunc(sorts.HeapSort, "HeapSort")
+	arr := generate(100)
+	sortFunc := testSortFunc(arr)
+
+	sortFunc(sorts.SelectionSort, "SelectionSort")
+	sortFunc(sorts.BubbleSort, "BubbleSort")
+	sortFunc(sorts.InsertionSort, "InsertionSort")
+	sortFunc(sorts.ShellSort, "ShellSort")
+	sortFunc(sorts.Mergesort, "Mergesort")
+	sortFunc(sorts.QuickSort, "QuickSort")
+	sortFunc(sorts.HeapSort, "HeapSort")
 }
 
-type sortFunc func([]int) []int
+func generate(limit int) []int {
+	arr := make([]int, 10)
+	rand.Seed(time.Now().UnixNano())
+	for i := 0; i < 10; i++ {
+		arr[i] = rand.Intn(limit)
+	}
+	return arr
+}
 
-func testFunc(f sortFunc, funcName string) {
-	sortSlice := []int{22, 4, 8, 9, 32, 17, 13, 5, 86, 1, 45, 23, 7, 66, 2, 47, 125, 231}
-
-	now := time.Now()
-	result := f(sortSlice)
-	fmt.Printf("func %v spend time %v\nresult %v\n\n", funcName, time.Since(now), result)
+func testSortFunc(arr []int) func(f func([]int) []int, funcName string) {
+	return func(f func([]int) []int, funcName string) {
+		now := time.Now()
+		result := f(arr)
+		fmt.Printf("func %v spend time %v\nresult %v\n\n", funcName, time.Since(now), result)
+	}
 }

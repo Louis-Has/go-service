@@ -36,7 +36,12 @@ var Db *gorm.DB
 
 var Rdb *redis.Client
 
-func InitMysql() {
+func init() {
+	initMysql()
+	InitRedis()
+}
+
+func initMysql() {
 	viper.AddConfigPath("./conf")
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
@@ -81,6 +86,9 @@ func InitMysql() {
 		return
 	}
 
+}
+
+func InitRedis() {
 	Rdb = redis.NewClient(&redis.Options{
 		Addr:     fmt.Sprintf("%v:%v", config.Redis.Host, config.Redis.Port),
 		Password: "",
@@ -91,7 +99,7 @@ func InitMysql() {
 	defer cancel()
 	_, err := Rdb.Ping(ctx).Result()
 	if err != nil {
-		log.Println(color.InRed(fmt.Sprintf("Connect Failed:%s", err)))
+		log.Println(color.InRed(fmt.Sprintf("Redis connect Failed:%s", err)))
 		panic(err)
 	} else {
 		log.Println(color.InGreen(fmt.Sprintf("%s connect Success", config.Redis.Name)))
