@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/TwiN/go-color"
 	"github.com/redis/go-redis/v9"
-	"github.com/spf13/viper"
+	"go-service/conf"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
@@ -13,51 +13,13 @@ import (
 	"time"
 )
 
-type Config struct {
-	Port int
-	Host string
-	MYSQL
-	Redis
-}
-
-type MYSQL struct {
-	Name, Host, Database, Username, Password string
-	Port                                     int
-}
-
-type Redis struct {
-	Host, Name string
-	Port       int
-}
-
-var config Config
-
 var Db *gorm.DB
 
 var Rdb *redis.Client
 
 func init() {
-	initViper()
 	initMysql()
-	InitRedis()
-}
-
-func initViper() {
-	viper.AddConfigPath("./conf")
-	viper.SetConfigName("config")
-	viper.SetConfigType("yaml")
-
-	if err := viper.ReadInConfig(); err != nil { // configure config
-		log.Println(color.InRed(err))
-		return
-	}
-
-	if err := viper.Unmarshal(&config); err != nil {
-		log.Println(color.InRed(err))
-		return
-	}
-
-	//log.Println(color.InGreen("config load Success"), color.InCyan(config))
+	initRedis()
 }
 
 func initMysql() {
@@ -65,11 +27,11 @@ func initMysql() {
 	var DBError error
 
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%v)/%s?charset=utf8mb4&parseTime=True&loc=Local",
-		config.MYSQL.Username,
-		config.MYSQL.Password,
-		config.MYSQL.Host,
-		config.MYSQL.Port,
-		config.MYSQL.Database,
+		conf.Conf.MYSQL.Username,
+		conf.Conf.MYSQL.Password,
+		conf.Conf.MYSQL.Host,
+		conf.Conf.MYSQL.Port,
+		conf.Conf.MYSQL.Database,
 	)
 
 	Db, DBError = gorm.Open(mysql.Open(dsn), &gorm.Config{
@@ -81,7 +43,7 @@ func initMysql() {
 	if DBError != nil {
 		log.Printf(color.InRed("db error!"), color.InRed(DBError))
 	} else {
-		log.Println(color.InGreen(fmt.Sprintf("%s connect Success", config.MYSQL.Name)))
+		log.Println(color.InGreen(fmt.Sprintf("%s connect Success", conf.Conf.MYSQL.Name)))
 	}
 
 	if err := Db.AutoMigrate(&Article{}, &AuthorMes{}); err != nil {
@@ -91,9 +53,9 @@ func initMysql() {
 
 }
 
-func InitRedis() {
+func initRedis() {
 	Rdb = redis.NewClient(&redis.Options{
-		Addr:     fmt.Sprintf("%v:%v", config.Redis.Host, config.Redis.Port),
+		Addr:     fmt.Sprintf("%v:%v", conf.Conf.Redis.Host, conf.Conf.Redis.Port),
 		Password: "",
 		DB:       0,
 	})
@@ -105,6 +67,6 @@ func InitRedis() {
 		log.Println(color.InRed(fmt.Sprintf("Redis connect Failed:%s", err)))
 		panic(err)
 	} else {
-		log.Println(color.InGreen(fmt.Sprintf("%s connect Success", config.Redis.Name)))
+		log.Println(color.InGreen(fmt.Sprintf("%s connect Success", conf.Conf.Redis.Name)))
 	}
 }

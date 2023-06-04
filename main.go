@@ -5,12 +5,10 @@ import (
 	"go-service/src"
 )
 
-func init() {
-}
+func init() {}
 
 func main() {
 	router := gin.Default()
-
 	src.CoreControl(router)
 
 	if err := router.Run(":8080"); err != nil {
