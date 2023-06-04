@@ -2,7 +2,8 @@ package main
 
 import (
 	"context"
-	"fmt"
+	logger "go-service/log"
+	"go.uber.org/zap"
 )
 
 func gen(ctx context.Context) <-chan int {
@@ -23,13 +24,26 @@ func gen(ctx context.Context) <-chan int {
 }
 
 func main() {
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel() // 当我们取完需要的整数后调用cancel
+	//ctx, cancel := context.WithCancel(context.Background())
+	//defer cancel() // 当我们取完需要的整数后调用cancel
+	//
+	//for n := range gen(ctx) {
+	//	fmt.Println(n)
+	//	if n >= 55 {
+	//		break
+	//	}
+	//}
+	for i := 1; i < 25; i++ {
+		switch i % 4 {
+		case 0:
+			logger.Debug("this is Debug", zap.Int("ik", i))
+		case 1:
+			logger.Info("this is Info", zap.Int("ik", i))
+		case 2:
+			logger.Warn("this is Warn", zap.Int("ik", i))
+		case 3:
+			logger.Error("this is Error", zap.Int("ik", i))
 
-	for n := range gen(ctx) {
-		fmt.Println(n)
-		if n >= 55 {
-			break
 		}
 	}
 }

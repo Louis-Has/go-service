@@ -37,11 +37,12 @@ var Db *gorm.DB
 var Rdb *redis.Client
 
 func init() {
+	initViper()
 	initMysql()
 	InitRedis()
 }
 
-func initMysql() {
+func initViper() {
 	viper.AddConfigPath("./conf")
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
@@ -57,7 +58,9 @@ func initMysql() {
 	}
 
 	//log.Println(color.InGreen("config load Success"), color.InCyan(config))
+}
 
+func initMysql() {
 	// db
 	var DBError error
 
