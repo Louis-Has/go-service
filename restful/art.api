@@ -1,0 +1,31 @@
+syntax = "v1"
+
+type Base {
+	Success bool   `json:"success"`
+	Msg     string `json:"msg"`
+}
+
+type Article {
+	Id      int64  `json:"id"`
+	Type    string `json:"type"`
+	Content string `json:"content"`
+	Author  string `json:"author"`
+}
+
+type GetArticleReq {
+	Id int64 `path:"id"`
+}
+
+type ArticleRes {
+	// api 支持匿名结构体嵌套，也支持结构体引用
+	Base
+	Data Article `json:"data"`
+}
+
+// 定义一个名称为 user 的服务
+service art {
+	// 定义 http.HandleFunc 转换的 go 文件名称及方法，每个接口都会跟一个 handler
+	@doc "用户信息相关"
+	@handler article
+	get /article/:id (GetArticleReq) returns (ArticleRes)
+}

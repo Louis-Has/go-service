@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/TwiN/go-color"
 	"github.com/redis/go-redis/v9"
-	"go-service/conf"
+	"go-service/common/conf"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"

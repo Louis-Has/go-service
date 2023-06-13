@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	logger "go-service/log"
+	"go-service/internal/log"
 	"go.uber.org/zap"
 )
 

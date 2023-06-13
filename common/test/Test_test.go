@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"go-service/common/utils"
-	"go-service/sorts"
+	"go-service/common/sorts"
+	"go-service/internal/utils"
 	"math/rand"
 	"testing"
 	"time"
