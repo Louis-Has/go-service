@@ -16,8 +16,3 @@ type Article struct {
 type GetArticleReq struct {
 	Id int64 `path:"id"`
 }
-
-type ArticleRes struct {
-	Base
-	Data Article `json:"data"`
-}

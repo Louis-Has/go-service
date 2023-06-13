@@ -23,7 +23,7 @@ func NewArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ArticleLo
 	}
 }
 
-func (l *ArticleLogic) Article(req *types.GetArticleReq) (res *types.ArticleRes, err error) {
+func (l *ArticleLogic) Article(req *types.GetArticleReq) (res *types.Article, err error) {
 
 	findOne, err := l.svcCtx.ArticleModel.FindOne(l.ctx, req.Id)
 	if err != nil {
@@ -33,11 +33,5 @@ func (l *ArticleLogic) Article(req *types.GetArticleReq) (res *types.ArticleRes,
 	var findResult types.Article
 	_ = copier.Copy(&findResult, findOne)
 
-	return &types.ArticleRes{
-		Base: types.Base{
-			Success: true,
-			Msg:     "",
-		},
-		Data: findResult,
-	}, nil
+	return &findResult, nil
 }
