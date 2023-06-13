@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/zeromicro/go-zero/core/logx"
 	"go-service/restful/art/internal/config"
 	"go-service/restful/art/internal/handler"
 	"go-service/restful/art/internal/svc"
@@ -19,11 +20,13 @@ func init() {
 	flag.Parse()
 	conf.MustLoad(*configFile, &c)
 
-	// config log
-	//logConf := logx.LogConf{
-	//	Level: "info",
-	//}
-	//logx.MustSetup(logConf)
+	// set log
+	logConf := logx.LogConf{
+		Level:    "info",
+		Encoding: "plain",
+	}
+	logx.MustSetup(logConf)
+	logx.DisableStat()
 }
 
 func main() {
