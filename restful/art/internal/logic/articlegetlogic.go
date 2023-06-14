@@ -9,29 +9,28 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type ArticleLogic struct {
+type ArticleGetLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ArticleLogic {
-	return &ArticleLogic{
+func NewArticleGetLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ArticleGetLogic {
+	return &ArticleGetLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *ArticleLogic) Article(req *types.GetArticleReq) (res *types.Article, err error) {
-
+func (l *ArticleGetLogic) ArticleGet(req *types.GetArticleReq) (resp *types.ArticleRes, err error) {
 	findOne, err := l.svcCtx.ArticleModel.FindOne(l.ctx, req.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	var findResult types.Article
-	_ = copier.Copy(&findResult, findOne)
+	result := &types.ArticleRes{}
+	_ = copier.Copy(&result, findOne)
 
-	return &findResult, nil
+	return result, nil
 }

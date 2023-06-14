@@ -14,6 +14,7 @@ protoc --go_out=./proto/. \
 ```bash
 goctl model mysql datasource \
   -url="root:development@tcp(localhost:3306)/testDB" -t="*" \
+  -i created_at,updated_at \
   -d=./internal/model
 
 ```

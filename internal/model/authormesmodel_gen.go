@@ -17,8 +17,8 @@ import (
 var (
 	authorMesFieldNames          = builder.RawFieldNames(&AuthorMes{})
 	authorMesRows                = strings.Join(authorMesFieldNames, ",")
-	authorMesRowsExpectAutoSet   = strings.Join(stringx.Remove(authorMesFieldNames, "`id`", "`create_at`", "`create_time`", "`created_at`", "`update_at`", "`update_time`", "`updated_at`"), ",")
-	authorMesRowsWithPlaceHolder = strings.Join(stringx.Remove(authorMesFieldNames, "`id`", "`create_at`", "`create_time`", "`created_at`", "`update_at`", "`update_time`", "`updated_at`"), "=?,") + "=?"
+	authorMesRowsExpectAutoSet   = strings.Join(stringx.Remove(authorMesFieldNames, "`id`", "`created_at`", "`updated_at`"), ",")
+	authorMesRowsWithPlaceHolder = strings.Join(stringx.Remove(authorMesFieldNames, "`id`", "`created_at`", "`updated_at`"), "=?,") + "=?"
 )
 
 type (

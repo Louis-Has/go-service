@@ -14,9 +14,20 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		[]rest.Route{
 			{
 				Method:  http.MethodGet,
-				Path:    "/article/:id",
-				Handler: articleHandler(serverCtx),
+				Path:    "/:id",
+				Handler: articleGetHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/",
+				Handler: articlePostHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPut,
+				Path:    "/",
+				Handler: articlePutHandler(serverCtx),
 			},
 		},
+		rest.WithPrefix("/article"),
 	)
 }

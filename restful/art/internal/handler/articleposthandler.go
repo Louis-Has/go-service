@@ -10,16 +10,16 @@ import (
 	"go-service/restful/art/internal/types"
 )
 
-func articleHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func articlePostHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.GetArticleReq
+		var req types.Article
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
 
-		l := logic.NewArticleLogic(r.Context(), svcCtx)
-		resp, err := l.Article(&req)
+		l := logic.NewArticlePostLogic(r.Context(), svcCtx)
+		resp, err := l.ArticlePost(&req)
 		response.Response(w, resp, err)
 	}
 }
