@@ -1,9 +1,9 @@
 syntax = "v1"
 
 type Article {
-	Type    string `json:"type,optional""`
-	Content string `json:"content,optional"`
-	Author  string `json:"author"`
+	Type    *string `json:"type,optional"`
+	Content *string `json:"content,optional"`
+	Author  string  `json:"author"`
 }
 
 type ArticleRes {

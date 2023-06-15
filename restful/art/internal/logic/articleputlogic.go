@@ -2,7 +2,7 @@ package logic
 
 import (
 	"context"
-
+	"github.com/jinzhu/copier"
 	"go-service/restful/art/internal/svc"
 	"go-service/restful/art/internal/types"
 
@@ -24,7 +24,19 @@ func NewArticlePutLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Articl
 }
 
 func (l *ArticlePutLogic) ArticlePut(req *types.ArticleRes) (resp *types.ArticleRes, err error) {
-	// todo: add your logic here and delete this line
 
-	return
+	findOne, err := l.svcCtx.ArticleModel.FindOne(l.ctx, req.Id)
+	if err != nil {
+		return nil, err
+	}
+
+	_ = copier.Copy(findOne, req)
+	err = l.svcCtx.ArticleModel.Update(l.ctx, findOne)
+	if err != nil {
+		return nil, err
+	}
+
+	result := &types.ArticleRes{}
+	_ = copier.Copy(result, findOne)
+	return result, nil
 }

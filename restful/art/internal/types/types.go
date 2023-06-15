@@ -2,9 +2,9 @@
 package types
 
 type Article struct {
-	Type    string `json:"type,optional""`
-	Content string `json:"content,optional"`
-	Author  string `json:"author"`
+	Type    *string `json:"type,optional"`
+	Content *string `json:"content,optional"`
+	Author  string  `json:"author"`
 }
 
 type ArticleRes struct {
