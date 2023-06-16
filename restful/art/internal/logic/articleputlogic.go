@@ -31,7 +31,7 @@ func (l *ArticlePutLogic) ArticlePut(req *types.ArticleRes) (resp *types.Article
 	}
 
 	_ = copier.Copy(findOne, req)
-	err = l.svcCtx.ArticleModel.Update(l.ctx, findOne)
+	err = l.svcCtx.ArticleModel.SoftUpdate(l.ctx, findOne)
 	if err != nil {
 		return nil, err
 	}

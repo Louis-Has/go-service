@@ -23,8 +23,8 @@ func NewArticleGetLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Articl
 	}
 }
 
-func (l *ArticleGetLogic) ArticleGet(req *types.GetArticleReq) (resp *types.ArticleRes, err error) {
-	findOne, err := l.svcCtx.ArticleModel.FindOne(l.ctx, req.Id)
+func (l *ArticleGetLogic) ArticleGet(req *types.ArticleId) (resp *types.ArticleRes, err error) {
+	findOne, err := l.svcCtx.ArticleModel.SoftFindOne(l.ctx, req.Id)
 	if err != nil {
 		return nil, err
 	}

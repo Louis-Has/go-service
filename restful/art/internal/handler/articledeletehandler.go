@@ -10,7 +10,7 @@ import (
 	"go-service/restful/art/internal/types"
 )
 
-func articleGetHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func articleDeleteHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.ArticleId
 		if err := httpx.Parse(r, &req); err != nil {
@@ -18,8 +18,8 @@ func articleGetHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := logic.NewArticleGetLogic(r.Context(), svcCtx)
-		resp, err := l.ArticleGet(&req)
-		response.Response(w, resp, err)
+		l := logic.NewArticleDeleteLogic(r.Context(), svcCtx)
+		err := l.ArticleDelete(&req)
+		response.Response(w, nil, err)
 	}
 }

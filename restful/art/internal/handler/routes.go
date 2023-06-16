@@ -27,6 +27,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/",
 				Handler: articlePutHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodDelete,
+				Path:    "/:id",
+				Handler: articleDeleteHandler(serverCtx),
+			},
 		},
 		rest.WithPrefix("/article"),
 	)
