@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"go-service/service/pb/art"
 
 	"go-service/restful/art/internal/svc"
 	"go-service/restful/art/internal/types"
@@ -25,7 +26,7 @@ func NewArticleDeleteLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Art
 
 func (l *ArticleDeleteLogic) ArticleDelete(req *types.PathID) error {
 
-	err := l.svcCtx.ArticleModel.SoftDelete(l.ctx, req.Id)
+	_, err := l.svcCtx.ArtServer.DeleteServer(l.ctx, &art.ArticleId{Id: req.Id})
 	if err != nil {
 		return err
 	}

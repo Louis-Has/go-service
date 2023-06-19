@@ -24,7 +24,9 @@ func NewDeleteServerLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Dele
 }
 
 func (l *DeleteServerLogic) DeleteServer(in *art.ArticleId) (*art.NilRes, error) {
-	// todo: add your logic here and delete this line
-
+	err := l.svcCtx.ArticleModel.SoftDelete(l.ctx, in.Id)
+	if err != nil {
+		return nil, err
+	}
 	return &art.NilRes{}, nil
 }
