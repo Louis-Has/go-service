@@ -1,0 +1,6 @@
+Name: art
+Host: localhost
+Port: 8888
+Middlewares:
+  Metrics: false
+  Shedding: false

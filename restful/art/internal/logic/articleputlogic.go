@@ -5,6 +5,7 @@ import (
 	"github.com/jinzhu/copier"
 	"go-service/restful/art/internal/svc"
 	"go-service/restful/art/internal/types"
+	"go-service/service/pb/art"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -25,18 +26,15 @@ func NewArticlePutLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Articl
 
 func (l *ArticlePutLogic) ArticlePut(req *types.ArticleRes) (resp *types.ArticleRes, err error) {
 
-	findOne, err := l.svcCtx.ArticleModel.FindOne(l.ctx, req.Id)
-	if err != nil {
-		return nil, err
-	}
+	tmp := &art.ArticleRes{}
+	_ = copier.Copy(tmp, req)
 
-	_ = copier.Copy(findOne, req)
-	err = l.svcCtx.ArticleModel.SoftUpdate(l.ctx, findOne)
+	article, err := l.svcCtx.ArtServer.PutServer(l.ctx, tmp)
 	if err != nil {
 		return nil, err
 	}
 
 	result := &types.ArticleRes{}
-	_ = copier.Copy(result, findOne)
+	_ = copier.Copy(result, article)
 	return result, nil
 }

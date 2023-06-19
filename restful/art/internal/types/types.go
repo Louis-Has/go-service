@@ -12,6 +12,6 @@ type ArticleRes struct {
 	Id int64 `json:"id"`
 }
 
-type ArticleId struct {
+type PathID struct {
 	Id int64 `path:"id"`
 }

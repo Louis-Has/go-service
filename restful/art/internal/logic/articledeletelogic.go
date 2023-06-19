@@ -23,7 +23,7 @@ func NewArticleDeleteLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Art
 	}
 }
 
-func (l *ArticleDeleteLogic) ArticleDelete(req *types.ArticleId) error {
+func (l *ArticleDeleteLogic) ArticleDelete(req *types.PathID) error {
 
 	err := l.svcCtx.ArticleModel.SoftDelete(l.ctx, req.Id)
 	if err != nil {

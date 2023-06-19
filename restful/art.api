@@ -11,7 +11,7 @@ type ArticleRes {
 	Id int64 `json:"id"`
 }
 
-type ArticleId {
+type PathID {
 	Id int64 `path:"id"`
 }
 
@@ -22,7 +22,7 @@ type ArticleId {
 service art {
 	@doc "用户信息相关"
 	@handler articleGet
-	get /:id (ArticleId) returns (ArticleRes)
+	get /:id (PathID) returns (ArticleRes)
 
 	@doc "新建用户信息"
 	@handler articlePost
@@ -34,5 +34,5 @@ service art {
 
 	@doc "删除用户信息"
 	@handler articleDelete
-	delete /:id (ArticleId) returns ()
+	delete /:id (PathID) returns ()
 }

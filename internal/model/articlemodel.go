@@ -3,6 +3,7 @@ package model
 import (
 	"context"
 	"fmt"
+	"github.com/jinzhu/copier"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 	myError "go-service/internal/error"
 	"time"
@@ -17,7 +18,7 @@ type (
 		articleModel
 		checkDeleted(ctx context.Context, id int64) (*Article, error)
 		SoftFindOne(ctx context.Context, id int64) (*Article, error)
-		SoftUpdate(ctx context.Context, data *Article) error
+		SoftUpdate(ctx context.Context, data *Article) (*Article, error)
 		SoftDelete(ctx context.Context, id int64) error
 	}
 
@@ -48,17 +49,25 @@ func (m *customArticleModel) SoftFindOne(ctx context.Context, id int64) (*Articl
 	return checkDeleted, nil
 }
 
-func (m *customArticleModel) SoftUpdate(ctx context.Context, data *Article) error {
+func (m *customArticleModel) SoftUpdate(ctx context.Context, data *Article) (*Article, error) {
+	// check deleted state
 	checkDeleted, err := m.checkDeleted(ctx, data.Id)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	err = m.Update(ctx, checkDeleted)
+	// implement incremental updates
+	err = copier.Copy(checkDeleted, data)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	return nil
+
+	// update
+	err = m.Update(ctx, data)
+	if err != nil {
+		return nil, err
+	}
+	return checkDeleted, nil
 }
 
 func (m *customArticleModel) SoftDelete(ctx context.Context, id int64) error {

@@ -14,4 +14,4 @@ Redis:
   Name: redis
   Host: localhost
   Port: 6379
-#yaml: this is a example of yaml
+#yaml: this is an example of yaml

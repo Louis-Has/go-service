@@ -1,0 +1,12 @@
+Name: article.rpc
+ListenOn: 0.0.0.0:8080
+Middlewares:
+  Stat: false
+  Trace: false
+
+
+
+#Etcd:
+#  Hosts:
+#  - 127.0.0.1:2379
+#  Key: article.rpc

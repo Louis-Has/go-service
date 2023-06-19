@@ -3,9 +3,9 @@ package logic
 import (
 	"context"
 	"github.com/jinzhu/copier"
-	"go-service/internal/model"
 	"go-service/restful/art/internal/svc"
 	"go-service/restful/art/internal/types"
+	"go-service/service/pb/art"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,21 +26,22 @@ func NewArticlePostLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Artic
 
 func (l *ArticlePostLogic) ArticlePost(req *types.Article) (resp *types.ArticleRes, err error) {
 
-	data := &model.Article{}
-	_ = copier.Copy(data, req)
-	insert, err := l.svcCtx.ArticleModel.Insert(l.ctx, data)
+	tmp := &art.Article{}
+	err = copier.Copy(tmp, req)
 	if err != nil {
 		return nil, err
 	}
 
-	insertId, _ := insert.LastInsertId()
-	findOne, err := l.svcCtx.ArticleModel.FindOne(l.ctx, insertId)
+	article, err := l.svcCtx.ArtServer.PostServer(l.ctx, tmp)
 	if err != nil {
 		return nil, err
 	}
 
 	result := &types.ArticleRes{}
-	_ = copier.Copy(result, findOne)
+	err = copier.Copy(result, article)
+	if err != nil {
+		return nil, err
+	}
 
 	return result, nil
 }

@@ -3,20 +3,19 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/zeromicro/go-zero/rest"
 	"go-service/restful/art/internal/config"
 	"go-service/restful/art/internal/handler"
 	"go-service/restful/art/internal/svc"
-
-	"github.com/zeromicro/go-zero/core/conf"
-	"github.com/zeromicro/go-zero/rest"
 )
 
 var c config.Config
 
 func init() {
 	// onload config
-	var configFile = flag.String("f", "restful/art/etc/art.yaml", "the config file")
+	var configFile = flag.String("f", "etc/art.yaml", "the config file")
 	flag.Parse()
 	conf.MustLoad(*configFile, &c)
 
