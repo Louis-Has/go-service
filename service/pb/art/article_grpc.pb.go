@@ -29,10 +29,10 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ArticleClient interface {
-	GetServer(ctx context.Context, in *ArticleId, opts ...grpc.CallOption) (*ArticleRes, error)
+	GetServer(ctx context.Context, in *Id, opts ...grpc.CallOption) (*ArticleRes, error)
 	PostServer(ctx context.Context, in *Article, opts ...grpc.CallOption) (*ArticleRes, error)
 	PutServer(ctx context.Context, in *ArticleRes, opts ...grpc.CallOption) (*ArticleRes, error)
-	DeleteServer(ctx context.Context, in *ArticleId, opts ...grpc.CallOption) (*NilRes, error)
+	DeleteServer(ctx context.Context, in *Id, opts ...grpc.CallOption) (*NilRes, error)
 }
 
 type articleClient struct {
@@ -43,7 +43,7 @@ func NewArticleClient(cc grpc.ClientConnInterface) ArticleClient {
 	return &articleClient{cc}
 }
 
-func (c *articleClient) GetServer(ctx context.Context, in *ArticleId, opts ...grpc.CallOption) (*ArticleRes, error) {
+func (c *articleClient) GetServer(ctx context.Context, in *Id, opts ...grpc.CallOption) (*ArticleRes, error) {
 	out := new(ArticleRes)
 	err := c.cc.Invoke(ctx, Article_GetServer_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -70,7 +70,7 @@ func (c *articleClient) PutServer(ctx context.Context, in *ArticleRes, opts ...g
 	return out, nil
 }
 
-func (c *articleClient) DeleteServer(ctx context.Context, in *ArticleId, opts ...grpc.CallOption) (*NilRes, error) {
+func (c *articleClient) DeleteServer(ctx context.Context, in *Id, opts ...grpc.CallOption) (*NilRes, error) {
 	out := new(NilRes)
 	err := c.cc.Invoke(ctx, Article_DeleteServer_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -83,10 +83,10 @@ func (c *articleClient) DeleteServer(ctx context.Context, in *ArticleId, opts ..
 // All implementations must embed UnimplementedArticleServer
 // for forward compatibility
 type ArticleServer interface {
-	GetServer(context.Context, *ArticleId) (*ArticleRes, error)
+	GetServer(context.Context, *Id) (*ArticleRes, error)
 	PostServer(context.Context, *Article) (*ArticleRes, error)
 	PutServer(context.Context, *ArticleRes) (*ArticleRes, error)
-	DeleteServer(context.Context, *ArticleId) (*NilRes, error)
+	DeleteServer(context.Context, *Id) (*NilRes, error)
 	mustEmbedUnimplementedArticleServer()
 }
 
@@ -94,7 +94,7 @@ type ArticleServer interface {
 type UnimplementedArticleServer struct {
 }
 
-func (UnimplementedArticleServer) GetServer(context.Context, *ArticleId) (*ArticleRes, error) {
+func (UnimplementedArticleServer) GetServer(context.Context, *Id) (*ArticleRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetServer not implemented")
 }
 func (UnimplementedArticleServer) PostServer(context.Context, *Article) (*ArticleRes, error) {
@@ -103,7 +103,7 @@ func (UnimplementedArticleServer) PostServer(context.Context, *Article) (*Articl
 func (UnimplementedArticleServer) PutServer(context.Context, *ArticleRes) (*ArticleRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PutServer not implemented")
 }
-func (UnimplementedArticleServer) DeleteServer(context.Context, *ArticleId) (*NilRes, error) {
+func (UnimplementedArticleServer) DeleteServer(context.Context, *Id) (*NilRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteServer not implemented")
 }
 func (UnimplementedArticleServer) mustEmbedUnimplementedArticleServer() {}
@@ -120,7 +120,7 @@ func RegisterArticleServer(s grpc.ServiceRegistrar, srv ArticleServer) {
 }
 
 func _Article_GetServer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ArticleId)
+	in := new(Id)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -132,7 +132,7 @@ func _Article_GetServer_Handler(srv interface{}, ctx context.Context, dec func(i
 		FullMethod: Article_GetServer_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ArticleServer).GetServer(ctx, req.(*ArticleId))
+		return srv.(ArticleServer).GetServer(ctx, req.(*Id))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -174,7 +174,7 @@ func _Article_PutServer_Handler(srv interface{}, ctx context.Context, dec func(i
 }
 
 func _Article_DeleteServer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ArticleId)
+	in := new(Id)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -186,7 +186,7 @@ func _Article_DeleteServer_Handler(srv interface{}, ctx context.Context, dec fun
 		FullMethod: Article_DeleteServer_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ArticleServer).DeleteServer(ctx, req.(*ArticleId))
+		return srv.(ArticleServer).DeleteServer(ctx, req.(*Id))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -213,6 +213,96 @@ var Article_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "deleteServer",
 			Handler:    _Article_DeleteServer_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "service/article.proto",
+}
+
+const (
+	Author_GetAuthor_FullMethodName = "/article.author/getAuthor"
+)
+
+// AuthorClient is the client API for Author service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type AuthorClient interface {
+	GetAuthor(ctx context.Context, in *Id, opts ...grpc.CallOption) (*AuthorRes, error)
+}
+
+type authorClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewAuthorClient(cc grpc.ClientConnInterface) AuthorClient {
+	return &authorClient{cc}
+}
+
+func (c *authorClient) GetAuthor(ctx context.Context, in *Id, opts ...grpc.CallOption) (*AuthorRes, error) {
+	out := new(AuthorRes)
+	err := c.cc.Invoke(ctx, Author_GetAuthor_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// AuthorServer is the server API for Author service.
+// All implementations must embed UnimplementedAuthorServer
+// for forward compatibility
+type AuthorServer interface {
+	GetAuthor(context.Context, *Id) (*AuthorRes, error)
+	mustEmbedUnimplementedAuthorServer()
+}
+
+// UnimplementedAuthorServer must be embedded to have forward compatible implementations.
+type UnimplementedAuthorServer struct {
+}
+
+func (UnimplementedAuthorServer) GetAuthor(context.Context, *Id) (*AuthorRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAuthor not implemented")
+}
+func (UnimplementedAuthorServer) mustEmbedUnimplementedAuthorServer() {}
+
+// UnsafeAuthorServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to AuthorServer will
+// result in compilation errors.
+type UnsafeAuthorServer interface {
+	mustEmbedUnimplementedAuthorServer()
+}
+
+func RegisterAuthorServer(s grpc.ServiceRegistrar, srv AuthorServer) {
+	s.RegisterService(&Author_ServiceDesc, srv)
+}
+
+func _Author_GetAuthor_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Id)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthorServer).GetAuthor(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Author_GetAuthor_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthorServer).GetAuthor(ctx, req.(*Id))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// Author_ServiceDesc is the grpc.ServiceDesc for Author service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var Author_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "article.author",
+	HandlerType: (*AuthorServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "getAuthor",
+			Handler:    _Author_GetAuthor_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

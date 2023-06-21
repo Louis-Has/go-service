@@ -1,4 +1,4 @@
-package logic
+package articlelogic
 
 import (
 	"context"
@@ -23,7 +23,7 @@ func NewDeleteServerLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Dele
 	}
 }
 
-func (l *DeleteServerLogic) DeleteServer(in *art.ArticleId) (*art.NilRes, error) {
+func (l *DeleteServerLogic) DeleteServer(in *art.Id) (*art.NilRes, error) {
 	err := l.svcCtx.ArticleModel.SoftDelete(l.ctx, in.Id)
 	if err != nil {
 		return nil, err

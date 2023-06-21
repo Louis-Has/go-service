@@ -6,7 +6,7 @@ package server
 import (
 	"context"
 
-	"go-service/service/article/internal/logic"
+	"go-service/service/article/internal/logic/article"
 	"go-service/service/article/internal/svc"
 	"go-service/service/pb/art"
 )
@@ -22,22 +22,22 @@ func NewArticleServer(svcCtx *svc.ServiceContext) *ArticleServer {
 	}
 }
 
-func (s *ArticleServer) GetServer(ctx context.Context, in *art.ArticleId) (*art.ArticleRes, error) {
-	l := logic.NewGetServerLogic(ctx, s.svcCtx)
+func (s *ArticleServer) GetServer(ctx context.Context, in *art.Id) (*art.ArticleRes, error) {
+	l := articlelogic.NewGetServerLogic(ctx, s.svcCtx)
 	return l.GetServer(in)
 }
 
 func (s *ArticleServer) PostServer(ctx context.Context, in *art.Article) (*art.ArticleRes, error) {
-	l := logic.NewPostServerLogic(ctx, s.svcCtx)
+	l := articlelogic.NewPostServerLogic(ctx, s.svcCtx)
 	return l.PostServer(in)
 }
 
 func (s *ArticleServer) PutServer(ctx context.Context, in *art.ArticleRes) (*art.ArticleRes, error) {
-	l := logic.NewPutServerLogic(ctx, s.svcCtx)
+	l := articlelogic.NewPutServerLogic(ctx, s.svcCtx)
 	return l.PutServer(in)
 }
 
-func (s *ArticleServer) DeleteServer(ctx context.Context, in *art.ArticleId) (*art.NilRes, error) {
-	l := logic.NewDeleteServerLogic(ctx, s.svcCtx)
+func (s *ArticleServer) DeleteServer(ctx context.Context, in *art.Id) (*art.NilRes, error) {
+	l := articlelogic.NewDeleteServerLogic(ctx, s.svcCtx)
 	return l.DeleteServer(in)
 }

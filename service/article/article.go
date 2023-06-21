@@ -4,14 +4,16 @@ import (
 	"flag"
 	"fmt"
 	"github.com/zeromicro/go-zero/core/logx"
+
+	"go-service/service/article/internal/config"
+	articleServer "go-service/service/article/internal/server/article"
+	authorServer "go-service/service/article/internal/server/author"
+	"go-service/service/article/internal/svc"
 	"go-service/service/pb/art"
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/service"
 	"github.com/zeromicro/go-zero/zrpc"
-	"go-service/service/article/internal/config"
-	"go-service/service/article/internal/server"
-	"go-service/service/article/internal/svc"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
@@ -36,7 +38,8 @@ func main() {
 	ctx := svc.NewServiceContext(c)
 
 	s := zrpc.MustNewServer(c.RpcServerConf, func(grpcServer *grpc.Server) {
-		art.RegisterArticleServer(grpcServer, server.NewArticleServer(ctx))
+		art.RegisterArticleServer(grpcServer, articleServer.NewArticleServer(ctx))
+		art.RegisterAuthorServer(grpcServer, authorServer.NewAuthorServer(ctx))
 
 		if c.Mode == service.DevMode || c.Mode == service.TestMode {
 			reflection.Register(grpcServer)

@@ -1,38 +1,32 @@
-package logic
+package article
 
 import (
 	"context"
 	"github.com/jinzhu/copier"
+	"go-service/service/pb/art"
+
 	"go-service/restful/art/internal/svc"
 	"go-service/restful/art/internal/types"
-	"go-service/service/pb/art"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type ArticlePostLogic struct {
+type GetArticleLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewArticlePostLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ArticlePostLogic {
-	return &ArticlePostLogic{
+func NewGetArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetArticleLogic {
+	return &GetArticleLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *ArticlePostLogic) ArticlePost(req *types.Article) (resp *types.ArticleRes, err error) {
-
-	tmp := &art.Article{}
-	err = copier.Copy(tmp, req)
-	if err != nil {
-		return nil, err
-	}
-
-	article, err := l.svcCtx.ArtServer.PostServer(l.ctx, tmp)
+func (l *GetArticleLogic) GetArticle(req *types.PathID) (resp *types.ArticleRes, err error) {
+	article, err := l.svcCtx.ArticleClient.GetServer(l.ctx, &art.Id{Id: req.Id})
 	if err != nil {
 		return nil, err
 	}

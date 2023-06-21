@@ -1,4 +1,4 @@
-package logic
+package article
 
 import (
 	"context"
@@ -10,23 +10,22 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type ArticleDeleteLogic struct {
+type DeleteArticleLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewArticleDeleteLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ArticleDeleteLogic {
-	return &ArticleDeleteLogic{
+func NewDeleteArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeleteArticleLogic {
+	return &DeleteArticleLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *ArticleDeleteLogic) ArticleDelete(req *types.PathID) error {
-
-	_, err := l.svcCtx.ArtServer.DeleteServer(l.ctx, &art.ArticleId{Id: req.Id})
+func (l *DeleteArticleLogic) DeleteArticle(req *types.PathID) error {
+	_, err := l.svcCtx.ArticleClient.DeleteServer(l.ctx, &art.Id{Id: req.Id})
 	if err != nil {
 		return err
 	}

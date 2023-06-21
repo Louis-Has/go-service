@@ -26,6 +26,7 @@ type (
 	articleModel interface {
 		Insert(ctx context.Context, data *Article) (sql.Result, error)
 		FindOne(ctx context.Context, id int64) (*Article, error)
+		FindOneByAuthor(ctx context.Context, author string) (*Article, error)
 		Update(ctx context.Context, data *Article) error
 		Delete(ctx context.Context, id int64) error
 	}
@@ -80,15 +81,29 @@ func (m *defaultArticleModel) FindOne(ctx context.Context, id int64) (*Article, 
 	}
 }
 
+func (m *defaultArticleModel) FindOneByAuthor(ctx context.Context, author string) (*Article, error) {
+	var resp Article
+	query := fmt.Sprintf("select %s from %s where `author` = ? limit 1", articleRows, m.table)
+	err := m.conn.QueryRowCtx(ctx, &resp, query, author)
+	switch err {
+	case nil:
+		return &resp, nil
+	case sqlc.ErrNotFound:
+		return nil, ErrNotFound
+	default:
+		return nil, err
+	}
+}
+
 func (m *defaultArticleModel) Insert(ctx context.Context, data *Article) (sql.Result, error) {
 	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?)", m.table, articleRowsExpectAutoSet)
 	ret, err := m.conn.ExecCtx(ctx, query, data.DeletedAt, data.Type, data.Content, data.Author)
 	return ret, err
 }
 
-func (m *defaultArticleModel) Update(ctx context.Context, data *Article) error {
+func (m *defaultArticleModel) Update(ctx context.Context, newData *Article) error {
 	query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, articleRowsWithPlaceHolder)
-	_, err := m.conn.ExecCtx(ctx, query, data.DeletedAt, data.Type, data.Content, data.Author, data.Id)
+	_, err := m.conn.ExecCtx(ctx, query, newData.DeletedAt, newData.Type, newData.Content, newData.Author, newData.Id)
 	return err
 }
 

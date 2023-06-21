@@ -14,15 +14,17 @@ import (
 
 type (
 	Article    = art.Article
-	ArticleId  = art.ArticleId
 	ArticleRes = art.ArticleRes
+	Author     = art.Author
+	AuthorRes  = art.AuthorRes
+	Id         = art.Id
 	NilRes     = art.NilRes
 
 	ArticleZrpcClient interface {
-		GetServer(ctx context.Context, in *ArticleId, opts ...grpc.CallOption) (*ArticleRes, error)
+		GetServer(ctx context.Context, in *Id, opts ...grpc.CallOption) (*ArticleRes, error)
 		PostServer(ctx context.Context, in *Article, opts ...grpc.CallOption) (*ArticleRes, error)
 		PutServer(ctx context.Context, in *ArticleRes, opts ...grpc.CallOption) (*ArticleRes, error)
-		DeleteServer(ctx context.Context, in *ArticleId, opts ...grpc.CallOption) (*NilRes, error)
+		DeleteServer(ctx context.Context, in *Id, opts ...grpc.CallOption) (*NilRes, error)
 	}
 
 	defaultArticleZrpcClient struct {
@@ -36,7 +38,7 @@ func NewArticleZrpcClient(cli zrpc.Client) ArticleZrpcClient {
 	}
 }
 
-func (m *defaultArticleZrpcClient) GetServer(ctx context.Context, in *ArticleId, opts ...grpc.CallOption) (*ArticleRes, error) {
+func (m *defaultArticleZrpcClient) GetServer(ctx context.Context, in *Id, opts ...grpc.CallOption) (*ArticleRes, error) {
 	client := art.NewArticleClient(m.cli.Conn())
 	return client.GetServer(ctx, in, opts...)
 }
@@ -51,7 +53,7 @@ func (m *defaultArticleZrpcClient) PutServer(ctx context.Context, in *ArticleRes
 	return client.PutServer(ctx, in, opts...)
 }
 
-func (m *defaultArticleZrpcClient) DeleteServer(ctx context.Context, in *ArticleId, opts ...grpc.CallOption) (*NilRes, error) {
+func (m *defaultArticleZrpcClient) DeleteServer(ctx context.Context, in *Id, opts ...grpc.CallOption) (*NilRes, error) {
 	client := art.NewArticleClient(m.cli.Conn())
 	return client.DeleteServer(ctx, in, opts...)
 }

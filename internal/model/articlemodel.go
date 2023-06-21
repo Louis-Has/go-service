@@ -27,8 +27,8 @@ type (
 	}
 )
 
-func (m *customArticleModel) checkDeleted(ctx context.Context, id int64) (*Article, error) {
-	findOne, err := m.FindOne(ctx, id)
+func (c *customArticleModel) checkDeleted(ctx context.Context, id int64) (*Article, error) {
+	findOne, err := c.FindOne(ctx, id)
 	if err != nil {
 		return nil, err
 	}
@@ -40,8 +40,8 @@ func (m *customArticleModel) checkDeleted(ctx context.Context, id int64) (*Artic
 	return findOne, nil
 }
 
-func (m *customArticleModel) SoftFindOne(ctx context.Context, id int64) (*Article, error) {
-	checkDeleted, err := m.checkDeleted(ctx, id)
+func (c *customArticleModel) SoftFindOne(ctx context.Context, id int64) (*Article, error) {
+	checkDeleted, err := c.checkDeleted(ctx, id)
 	if err != nil {
 		return nil, err
 	}
@@ -49,9 +49,9 @@ func (m *customArticleModel) SoftFindOne(ctx context.Context, id int64) (*Articl
 	return checkDeleted, nil
 }
 
-func (m *customArticleModel) SoftUpdate(ctx context.Context, data *Article) (*Article, error) {
+func (c *customArticleModel) SoftUpdate(ctx context.Context, data *Article) (*Article, error) {
 	// check deleted state
-	checkDeleted, err := m.checkDeleted(ctx, data.Id)
+	checkDeleted, err := c.checkDeleted(ctx, data.Id)
 	if err != nil {
 		return nil, err
 	}
@@ -63,21 +63,21 @@ func (m *customArticleModel) SoftUpdate(ctx context.Context, data *Article) (*Ar
 	}
 
 	// update
-	err = m.Update(ctx, data)
+	err = c.Update(ctx, data)
 	if err != nil {
 		return nil, err
 	}
 	return checkDeleted, nil
 }
 
-func (m *customArticleModel) SoftDelete(ctx context.Context, id int64) error {
-	_, err := m.checkDeleted(ctx, id)
+func (c *customArticleModel) SoftDelete(ctx context.Context, id int64) error {
+	_, err := c.checkDeleted(ctx, id)
 	if err != nil {
 		return err
 	}
 
-	query := fmt.Sprintf("update %s set deleted_at = ? where `id` = ?", m.table)
-	_, err = m.conn.ExecCtx(ctx, query, time.Now(), id)
+	query := fmt.Sprintf("update %s set deleted_at = ? where `id` = ?", c.table)
+	_, err = c.conn.ExecCtx(ctx, query, time.Now(), id)
 	return err
 }
 

@@ -16,7 +16,7 @@ goctl model mysql datasource \
 ```bash
 goctl rpc protoc ./service/*.proto \
 --go_out=./service/pb --go-grpc_out=./service/pb \
---zrpc_out=./service/article
+--zrpc_out=./service/article -m
 ```
 
 ```bash

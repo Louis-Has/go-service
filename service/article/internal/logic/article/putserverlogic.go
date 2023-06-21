@@ -1,4 +1,4 @@
-package logic
+package articlelogic
 
 import (
 	"context"
@@ -27,7 +27,6 @@ func NewPutServerLogic(ctx context.Context, svcCtx *svc.ServiceContext) *PutServ
 }
 
 func (l *PutServerLogic) PutServer(in *art.ArticleRes) (*art.ArticleRes, error) {
-
 	tmp := &model.Article{}
 	err := copier.Copy(tmp, in)
 	if err != nil {

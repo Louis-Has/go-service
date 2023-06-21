@@ -7,6 +7,7 @@ import (
 	"database/sql"
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/zeromicro/go-zero/core/stores/builder"
 	"github.com/zeromicro/go-zero/core/stores/sqlc"
@@ -25,7 +26,6 @@ type (
 	authorMesModel interface {
 		Insert(ctx context.Context, data *AuthorMes) (sql.Result, error)
 		FindOne(ctx context.Context, id int64) (*AuthorMes, error)
-		FindOneByAuthor(ctx context.Context, author string) (*AuthorMes, error)
 		Update(ctx context.Context, data *AuthorMes) error
 		Delete(ctx context.Context, id int64) error
 	}
@@ -37,8 +37,8 @@ type (
 
 	AuthorMes struct {
 		Id           int64         `db:"id"`
-		CreatedAt    sql.NullTime  `db:"created_at"`
-		UpdatedAt    sql.NullTime  `db:"updated_at"`
+		CreatedAt    time.Time     `db:"created_at"`
+		UpdatedAt    time.Time     `db:"updated_at"`
 		DeletedAt    sql.NullTime  `db:"deleted_at"`
 		Author       string        `db:"author"`
 		SignedPerson int64         `db:"signed_person"`
@@ -80,29 +80,15 @@ func (m *defaultAuthorMesModel) FindOne(ctx context.Context, id int64) (*AuthorM
 	}
 }
 
-func (m *defaultAuthorMesModel) FindOneByAuthor(ctx context.Context, author string) (*AuthorMes, error) {
-	var resp AuthorMes
-	query := fmt.Sprintf("select %s from %s where `author` = ? limit 1", authorMesRows, m.table)
-	err := m.conn.QueryRowCtx(ctx, &resp, query, author)
-	switch err {
-	case nil:
-		return &resp, nil
-	case sqlc.ErrNotFound:
-		return nil, ErrNotFound
-	default:
-		return nil, err
-	}
-}
-
 func (m *defaultAuthorMesModel) Insert(ctx context.Context, data *AuthorMes) (sql.Result, error) {
 	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?)", m.table, authorMesRowsExpectAutoSet)
 	ret, err := m.conn.ExecCtx(ctx, query, data.DeletedAt, data.Author, data.SignedPerson, data.Cash)
 	return ret, err
 }
 
-func (m *defaultAuthorMesModel) Update(ctx context.Context, newData *AuthorMes) error {
+func (m *defaultAuthorMesModel) Update(ctx context.Context, data *AuthorMes) error {
 	query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, authorMesRowsWithPlaceHolder)
-	_, err := m.conn.ExecCtx(ctx, query, newData.DeletedAt, newData.Author, newData.SignedPerson, newData.Cash, newData.Id)
+	_, err := m.conn.ExecCtx(ctx, query, data.DeletedAt, data.Author, data.SignedPerson, data.Cash, data.Id)
 	return err
 }
 

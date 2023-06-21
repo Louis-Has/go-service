@@ -15,3 +15,14 @@ type ArticleRes struct {
 type PathID struct {
 	Id int64 `path:"id"`
 }
+
+type AuthorContent struct {
+	Author       string `json:"author"`
+	SignedPerson *bool  `json:"signedPerson,optional"`
+	Cash         *int64 `json:"cash,optional"`
+}
+
+type AuthorRes struct {
+	Authors []AuthorContent `json:"authors"`
+	Id      int64           `json:"id"`
+}

@@ -1,4 +1,4 @@
-package logic
+package authorlogic
 
 import (
 	"context"
@@ -10,28 +10,29 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type GetServerLogic struct {
+type GetAuthorLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewGetServerLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetServerLogic {
-	return &GetServerLogic{
+func NewGetAuthorLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetAuthorLogic {
+	return &GetAuthorLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-func (l *GetServerLogic) GetServer(in *art.ArticleId) (*art.ArticleRes, error) {
-	findOne, err := l.svcCtx.ArticleModel.SoftFindOne(l.ctx, in.Id)
+func (l *GetAuthorLogic) GetAuthor(in *art.Id) (*art.AuthorRes, error) {
+
+	authors, err := l.svcCtx.AuthorMesModel.FindAuthorsById(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	result := &art.ArticleRes{}
-	err = copier.Copy(&result, findOne)
+	result := &art.AuthorRes{}
+	err = copier.Copy(&result.Authors, &authors)
 	if err != nil {
 		return nil, err
 	}

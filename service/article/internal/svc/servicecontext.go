@@ -7,14 +7,16 @@ import (
 )
 
 type ServiceContext struct {
-	Config       config.Config
-	ArticleModel model.ArticleModel
+	Config config.Config
+	model.ArticleModel
+	model.AuthorMesModel
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
 	db := sqlx.NewSqlConn("mysql", "root:development@tcp(localhost:3306)/testDB?parseTime=True&loc=Asia%2FShanghai")
 	return &ServiceContext{
-		Config:       c,
-		ArticleModel: model.NewArticleModel(db),
+		Config:         c,
+		ArticleModel:   model.NewArticleModel(db),
+		AuthorMesModel: model.NewAuthorMesModel(db),
 	}
 }
