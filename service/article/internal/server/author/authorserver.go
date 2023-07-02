@@ -22,7 +22,12 @@ func NewAuthorServer(svcCtx *svc.ServiceContext) *AuthorServer {
 	}
 }
 
-func (s *AuthorServer) GetAuthor(ctx context.Context, in *art.Id) (*art.AuthorRes, error) {
+func (s *AuthorServer) GetAuthor(ctx context.Context, in *art.Id) (*art.AuthorMesRes, error) {
 	l := authorlogic.NewGetAuthorLogic(ctx, s.svcCtx)
 	return l.GetAuthor(in)
+}
+
+func (s *AuthorServer) GetAuthorTotal(ctx context.Context, in *art.NeedLived) (*art.TotalRes, error) {
+	l := authorlogic.NewGetAuthorTotalLogic(ctx, s.svcCtx)
+	return l.GetAuthorTotal(in)
 }

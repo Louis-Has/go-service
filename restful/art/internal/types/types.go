@@ -26,3 +26,19 @@ type AuthorRes struct {
 	Authors []AuthorContent `json:"authors"`
 	Id      int64           `json:"id"`
 }
+
+type AuthorTotal struct {
+	Id       int64  `json:"id"`
+	Author   string `json:"author"`
+	Deleted  bool   `json:"deleted"`
+	MesCount int64  `json:"mesCount"`
+	CashSum  int64  `json:"cashSum"`
+}
+
+type NeedLived struct {
+	Lived bool `json:"lived,optional"`
+}
+
+type TotalRes struct {
+	AuthorTotals []AuthorTotal `json:"authorTotals"`
+}

@@ -24,14 +24,14 @@ func NewGetAuthorLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetAuth
 	}
 }
 
-func (l *GetAuthorLogic) GetAuthor(in *art.Id) (*art.AuthorRes, error) {
+func (l *GetAuthorLogic) GetAuthor(in *art.Id) (*art.AuthorMesRes, error) {
 
 	authors, err := l.svcCtx.AuthorMesModel.FindAuthorsById(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	result := &art.AuthorRes{}
+	result := &art.AuthorMesRes{}
 	err = copier.Copy(&result.Authors, &authors)
 	if err != nil {
 		return nil, err

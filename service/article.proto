@@ -4,11 +4,13 @@ package article;
 
 option go_package = "./art";
 
+
 message Id {
   int64 Id = 1;
 }
 
 message nilRes {}
+
 
 message ArticleRes {
   int64 Id = 1;
@@ -30,17 +32,34 @@ service article {
   rpc deleteServer(Id) returns(nilRes);
 }
 
-message Author {
+message AuthorMes {
   int64 Id = 1;
   string Author = 2;
   bool  SignedPerson = 3;
   int64 Cash = 4;
 }
 
-message AuthorRes {
-  repeated Author Authors = 1;
+message AuthorMesRes {
+  repeated AuthorMes Authors = 1;
+}
+
+message AuthorTotal {
+  int64 id = 1;
+  string author = 2;
+  bool deleted = 3;
+  int64 mesCount = 4;
+  int64 cashSum = 5;
+}
+
+message NeedLived {
+  bool lived = 1;
+}
+
+message TotalRes{
+  repeated AuthorTotal  AuthorTotals = 1;
 }
 
 service author {
-  rpc getAuthor(Id) returns (AuthorRes);
+  rpc getAuthor(Id) returns (AuthorMesRes);
+  rpc getAuthorTotal(NeedLived) returns (TotalRes);
 }

@@ -13,12 +13,15 @@ import (
 )
 
 type (
-	Article    = art.Article
-	ArticleRes = art.ArticleRes
-	Author     = art.Author
-	AuthorRes  = art.AuthorRes
-	Id         = art.Id
-	NilRes     = art.NilRes
+	Article      = art.Article
+	ArticleRes   = art.ArticleRes
+	AuthorMes    = art.AuthorMes
+	AuthorMesRes = art.AuthorMesRes
+	AuthorTotal  = art.AuthorTotal
+	Id           = art.Id
+	NeedLived    = art.NeedLived
+	NilRes       = art.NilRes
+	TotalRes     = art.TotalRes
 
 	ArticleZrpcClient interface {
 		GetServer(ctx context.Context, in *Id, opts ...grpc.CallOption) (*ArticleRes, error)

@@ -13,29 +13,38 @@ import (
 )
 
 type (
-	Article    = art.Article
-	ArticleRes = art.ArticleRes
-	Author     = art.Author
-	AuthorRes  = art.AuthorRes
-	Id         = art.Id
-	NilRes     = art.NilRes
+	Article      = art.Article
+	ArticleRes   = art.ArticleRes
+	AuthorMes    = art.AuthorMes
+	AuthorMesRes = art.AuthorMesRes
+	AuthorTotal  = art.AuthorTotal
+	Id           = art.Id
+	NeedLived    = art.NeedLived
+	NilRes       = art.NilRes
+	TotalRes     = art.TotalRes
 
-	AuthorZrpcClient interface {
-		GetAuthor(ctx context.Context, in *Id, opts ...grpc.CallOption) (*AuthorRes, error)
+	Author interface {
+		GetAuthor(ctx context.Context, in *Id, opts ...grpc.CallOption) (*AuthorMesRes, error)
+		GetAuthorTotal(ctx context.Context, in *NeedLived, opts ...grpc.CallOption) (*TotalRes, error)
 	}
 
-	defaultAuthorZrpcClient struct {
+	defaultAuthor struct {
 		cli zrpc.Client
 	}
 )
 
-func NewAuthorZrpcClient(cli zrpc.Client) AuthorZrpcClient {
-	return &defaultAuthorZrpcClient{
+func NewAuthor(cli zrpc.Client) Author {
+	return &defaultAuthor{
 		cli: cli,
 	}
 }
 
-func (m *defaultAuthorZrpcClient) GetAuthor(ctx context.Context, in *Id, opts ...grpc.CallOption) (*AuthorRes, error) {
+func (m *defaultAuthor) GetAuthor(ctx context.Context, in *Id, opts ...grpc.CallOption) (*AuthorMesRes, error) {
 	client := art.NewAuthorClient(m.cli.Conn())
 	return client.GetAuthor(ctx, in, opts...)
+}
+
+func (m *defaultAuthor) GetAuthorTotal(ctx context.Context, in *NeedLived, opts ...grpc.CallOption) (*TotalRes, error) {
+	client := art.NewAuthorClient(m.cli.Conn())
+	return client.GetAuthorTotal(ctx, in, opts...)
 }

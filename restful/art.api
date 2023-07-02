@@ -49,6 +49,22 @@ type AuthorRes {
 	Id      int64           `json:"id"`
 }
 
+type AuthorTotal {
+	Id       int64  `json:"id"`
+	Author   string `json:"author"`
+	Deleted  bool   `json:"deleted"`
+	MesCount int64  `json:"mesCount"`
+	CashSum  int64  `json:"cashSum"`
+}
+
+type NeedLived {
+	Lived bool `json:"lived,optional"`
+}
+
+type TotalRes {
+	AuthorTotals []AuthorTotal `json:"authorTotals"`
+}
+
 @server (
 	prefix: /author
 	group : author
@@ -58,4 +74,8 @@ service art {
 	@doc "获取作者信息"
 	@handler getAuthor
 	get /:id (PathID) returns (AuthorRes)
+
+	@doc "获取所有article统计信息"
+	@handler getArticleTotal
+	get /total (NeedLived) returns (TotalRes)
 }

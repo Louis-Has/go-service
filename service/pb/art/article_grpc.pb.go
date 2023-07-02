@@ -220,14 +220,16 @@ var Article_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	Author_GetAuthor_FullMethodName = "/article.author/getAuthor"
+	Author_GetAuthor_FullMethodName      = "/article.author/getAuthor"
+	Author_GetAuthorTotal_FullMethodName = "/article.author/getAuthorTotal"
 )
 
 // AuthorClient is the client API for Author service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AuthorClient interface {
-	GetAuthor(ctx context.Context, in *Id, opts ...grpc.CallOption) (*AuthorRes, error)
+	GetAuthor(ctx context.Context, in *Id, opts ...grpc.CallOption) (*AuthorMesRes, error)
+	GetAuthorTotal(ctx context.Context, in *NeedLived, opts ...grpc.CallOption) (*TotalRes, error)
 }
 
 type authorClient struct {
@@ -238,9 +240,18 @@ func NewAuthorClient(cc grpc.ClientConnInterface) AuthorClient {
 	return &authorClient{cc}
 }
 
-func (c *authorClient) GetAuthor(ctx context.Context, in *Id, opts ...grpc.CallOption) (*AuthorRes, error) {
-	out := new(AuthorRes)
+func (c *authorClient) GetAuthor(ctx context.Context, in *Id, opts ...grpc.CallOption) (*AuthorMesRes, error) {
+	out := new(AuthorMesRes)
 	err := c.cc.Invoke(ctx, Author_GetAuthor_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authorClient) GetAuthorTotal(ctx context.Context, in *NeedLived, opts ...grpc.CallOption) (*TotalRes, error) {
+	out := new(TotalRes)
+	err := c.cc.Invoke(ctx, Author_GetAuthorTotal_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -251,7 +262,8 @@ func (c *authorClient) GetAuthor(ctx context.Context, in *Id, opts ...grpc.CallO
 // All implementations must embed UnimplementedAuthorServer
 // for forward compatibility
 type AuthorServer interface {
-	GetAuthor(context.Context, *Id) (*AuthorRes, error)
+	GetAuthor(context.Context, *Id) (*AuthorMesRes, error)
+	GetAuthorTotal(context.Context, *NeedLived) (*TotalRes, error)
 	mustEmbedUnimplementedAuthorServer()
 }
 
@@ -259,8 +271,11 @@ type AuthorServer interface {
 type UnimplementedAuthorServer struct {
 }
 
-func (UnimplementedAuthorServer) GetAuthor(context.Context, *Id) (*AuthorRes, error) {
+func (UnimplementedAuthorServer) GetAuthor(context.Context, *Id) (*AuthorMesRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAuthor not implemented")
+}
+func (UnimplementedAuthorServer) GetAuthorTotal(context.Context, *NeedLived) (*TotalRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAuthorTotal not implemented")
 }
 func (UnimplementedAuthorServer) mustEmbedUnimplementedAuthorServer() {}
 
@@ -293,6 +308,24 @@ func _Author_GetAuthor_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Author_GetAuthorTotal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(NeedLived)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthorServer).GetAuthorTotal(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Author_GetAuthorTotal_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthorServer).GetAuthorTotal(ctx, req.(*NeedLived))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Author_ServiceDesc is the grpc.ServiceDesc for Author service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -303,6 +336,10 @@ var Author_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "getAuthor",
 			Handler:    _Author_GetAuthor_Handler,
+		},
+		{
+			MethodName: "getAuthorTotal",
+			Handler:    _Author_GetAuthorTotal_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

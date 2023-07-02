@@ -45,6 +45,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/:id",
 				Handler: author.GetAuthorHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/total",
+				Handler: author.GetArticleTotalHandler(serverCtx),
+			},
 		},
 		rest.WithPrefix("/author"),
 	)
