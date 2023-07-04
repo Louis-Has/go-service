@@ -2,7 +2,6 @@ package author
 
 import (
 	"context"
-	"fmt"
 	"github.com/jinzhu/copier"
 	"go-service/service/pb/art"
 
@@ -27,13 +26,10 @@ func NewGetArticleTotalLogic(ctx context.Context, svcCtx *svc.ServiceContext) *G
 }
 
 func (l *GetArticleTotalLogic) GetArticleTotal(req *types.NeedLived) (resp *types.TotalRes, err error) {
-	fmt.Printf("this is ready\n")
 	total, err := l.svcCtx.AuthorClient.GetAuthorTotal(l.ctx, &art.NeedLived{Lived: req.Lived})
 	if err != nil {
 		return nil, err
 	}
-
-	fmt.Printf("this is api total:%+v\n", total)
 
 	res := &types.TotalRes{}
 	err = copier.Copy(&res, total)

@@ -61,7 +61,6 @@ func (c customAuthorMesModel) GetArticleTotal(ctx context.Context, lived bool) (
 
 	query := fmt.Sprintf("SELECT t1.id ,t1.author ,IF(t1.deleted_at,TRUE,FALSE) deleted ,COUNT(t2.id) mesCount ,IFNULL(SUM(t2.cash),0) cashSum from article t1 LEFT JOIN author_mes t2 ON t1.author = t2.author  GROUP BY t1.author")
 	err := c.conn.QueryRowsCtx(ctx, &res, query)
-	fmt.Printf("this is result %+v\n", res)
 	if err != nil {
 		return nil, err
 	}
