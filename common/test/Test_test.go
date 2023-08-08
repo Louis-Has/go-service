@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"github.com/sony/sonyflake"
 	"go-service/common/sorts"
 	"go-service/internal/utils"
 	"math/rand"
@@ -93,41 +92,5 @@ func testSortFunc(arr []int) func(f func([]int) []int, funcName string) {
 		now := time.Now()
 		result := f(arr)
 		fmt.Printf("func %v spend time %v\nresult %v\n\n", funcName, time.Since(now), result)
-	}
-}
-
-func generateSonyCodes(step int) ([]string, error) {
-	codes := make([]string, step)
-	flake := sonyflake.NewSonyflake(sonyflake.Settings{
-		MachineID: func() (uint16, error) {
-			return 12345, nil
-		},
-	})
-
-	for i := range codes {
-		code, err := flake.NextID()
-		if err != nil {
-			return nil, err
-		}
-		timestamp := code >> 24
-		machineID := (code >> 16) & 0xFF
-		sequence := code & 0xFFFF
-		codes[i] = fmt.Sprintf("code: %v | ox: %x | timestamp: %x | machineID: %x | sequence:%d \n",
-			code, code, timestamp, machineID, sequence)
-
-		//time.Sleep(1 * time.Millisecond)
-	}
-	return codes, nil
-}
-
-func TestSonyCodes(t *testing.T) {
-	result, err := generateSonyCodes(32)
-
-	if err != nil {
-		fmt.Printf("code gener err!")
-	}
-
-	for _, s := range result {
-		fmt.Printf(s)
 	}
 }
