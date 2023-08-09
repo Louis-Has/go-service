@@ -104,18 +104,22 @@ func evaluate(nums []float64, total float64, expression string, solutions *[]str
 		restNums := append([]float64{}, nums[0:i]...)
 		restNums = append(restNums, nums[i+1:]...)
 
-		evaluate(restNums, total+num, fmt.Sprintf("(%s+%g)", expression, num), solutions, target)
-		evaluate(restNums, total-num, fmt.Sprintf("(%s-%g)", expression, num), solutions, target)
-		evaluate(restNums, total*num, fmt.Sprintf("(%s*%g)", expression, num), solutions, target)
-		if math.Abs(num) != 0 {
-			evaluate(restNums, total/num, fmt.Sprintf("(%s/%g)", expression, num), solutions, target)
+		if expression == "" {
+			evaluate(restNums, num, fmt.Sprintf("%g", num), solutions, target)
+		} else {
+			evaluate(restNums, total+num, fmt.Sprintf("(%s+%g)", expression, num), solutions, target)
+			evaluate(restNums, total-num, fmt.Sprintf("(%s-%g)", expression, num), solutions, target)
+			evaluate(restNums, total*num, fmt.Sprintf("(%s*%g)", expression, num), solutions, target)
+			if math.Abs(num) != 0 {
+				evaluate(restNums, total/num, fmt.Sprintf("(%s/%g)", expression, num), solutions, target)
+			}
 		}
 	}
 }
 
 func findSolutions(nums []float64, target float64) []string {
 	var solutions []string
-	evaluate(nums, 0, "0", &solutions, target)
+	evaluate(nums, 0, "", &solutions, target)
 	return solutions
 }
 
