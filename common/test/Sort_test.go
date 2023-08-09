@@ -8,7 +8,7 @@ import (
 	"testing"
 )
 
-// 有三个函数，分别打印"cat", "fish","dog"要求每一个函数都用一个goroutine，按照顺序打印100次。
+// todo 有三个函数，分别打印"cat", "fish","dog"要求每一个函数都用一个goroutine，按照顺序打印100次。
 
 var dog = make(chan struct{})
 var cat = make(chan struct{})
@@ -51,7 +51,7 @@ func TestGoroutine(t *testing.T) {
 	wg.Wait()
 }
 
-// 批量生成几十万或者上百万的兑换码
+// todo 批量生成几十万或者上百万的兑换码
 // 用雪花算法实现
 // 再解析打印出三段部分
 func generateSonyCodes(step int) ([]string, error) {
@@ -90,7 +90,7 @@ func TestSonyCodes(t *testing.T) {
 	}
 }
 
-// evaluate 方法递归计算表达式结果
+// todo evaluate 方法递归计算表达式结果
 
 func evaluate(nums []float64, total float64, expression string, solutions *[]string, target float64) {
 	if len(nums) == 0 {
@@ -138,4 +138,34 @@ func TestEvaluate(t *testing.T) {
 		fmt.Printf("无法通过加减乘除得到期望值 \n")
 	}
 
+}
+
+// todo 台阶问题
+
+func countStair(step int) int {
+	if step == 0 || step == 1 {
+		return 1
+	} else if step == 1 {
+		return 2
+	} else {
+		a := 0
+		b := 0
+		sum := 1
+
+		for i := 0; i < step; i++ {
+			a, b = b, sum
+			sum = a + b
+		}
+		return sum
+	}
+}
+
+func TestCountStair(t *testing.T) {
+	steps := 5
+	if steps < 0 {
+		fmt.Print("注意输入有意义的台阶数目")
+	}
+
+	ways := countStair(steps)
+	fmt.Printf("对于 %d 个台阶，有 %d 种上法\n", steps, ways)
 }
