@@ -23,6 +23,7 @@ func NewGetAuthorTotalLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ge
 }
 
 func (l *GetAuthorTotalLogic) GetAuthorTotal(in *art.Empty) (*art.TotalRes, error) {
+	_ = in
 
 	total, err := l.svcCtx.AuthorMesModel.GetArticleTotal(l.ctx, true)
 	if err != nil {
