@@ -32,7 +32,7 @@ type ArticleClient interface {
 	GetServer(ctx context.Context, in *Id, opts ...grpc.CallOption) (*ArticleRes, error)
 	PostServer(ctx context.Context, in *Article, opts ...grpc.CallOption) (*ArticleRes, error)
 	PutServer(ctx context.Context, in *ArticleRes, opts ...grpc.CallOption) (*ArticleRes, error)
-	DeleteServer(ctx context.Context, in *Id, opts ...grpc.CallOption) (*NilRes, error)
+	DeleteServer(ctx context.Context, in *Id, opts ...grpc.CallOption) (*Empty, error)
 }
 
 type articleClient struct {
@@ -70,8 +70,8 @@ func (c *articleClient) PutServer(ctx context.Context, in *ArticleRes, opts ...g
 	return out, nil
 }
 
-func (c *articleClient) DeleteServer(ctx context.Context, in *Id, opts ...grpc.CallOption) (*NilRes, error) {
-	out := new(NilRes)
+func (c *articleClient) DeleteServer(ctx context.Context, in *Id, opts ...grpc.CallOption) (*Empty, error) {
+	out := new(Empty)
 	err := c.cc.Invoke(ctx, Article_DeleteServer_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -86,7 +86,7 @@ type ArticleServer interface {
 	GetServer(context.Context, *Id) (*ArticleRes, error)
 	PostServer(context.Context, *Article) (*ArticleRes, error)
 	PutServer(context.Context, *ArticleRes) (*ArticleRes, error)
-	DeleteServer(context.Context, *Id) (*NilRes, error)
+	DeleteServer(context.Context, *Id) (*Empty, error)
 	mustEmbedUnimplementedArticleServer()
 }
 
@@ -103,7 +103,7 @@ func (UnimplementedArticleServer) PostServer(context.Context, *Article) (*Articl
 func (UnimplementedArticleServer) PutServer(context.Context, *ArticleRes) (*ArticleRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PutServer not implemented")
 }
-func (UnimplementedArticleServer) DeleteServer(context.Context, *Id) (*NilRes, error) {
+func (UnimplementedArticleServer) DeleteServer(context.Context, *Id) (*Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteServer not implemented")
 }
 func (UnimplementedArticleServer) mustEmbedUnimplementedArticleServer() {}
@@ -229,7 +229,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AuthorClient interface {
 	GetAuthor(ctx context.Context, in *Id, opts ...grpc.CallOption) (*AuthorMesRes, error)
-	GetAuthorTotal(ctx context.Context, in *NeedLived, opts ...grpc.CallOption) (*TotalRes, error)
+	GetAuthorTotal(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*TotalRes, error)
 }
 
 type authorClient struct {
@@ -249,7 +249,7 @@ func (c *authorClient) GetAuthor(ctx context.Context, in *Id, opts ...grpc.CallO
 	return out, nil
 }
 
-func (c *authorClient) GetAuthorTotal(ctx context.Context, in *NeedLived, opts ...grpc.CallOption) (*TotalRes, error) {
+func (c *authorClient) GetAuthorTotal(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*TotalRes, error) {
 	out := new(TotalRes)
 	err := c.cc.Invoke(ctx, Author_GetAuthorTotal_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -263,7 +263,7 @@ func (c *authorClient) GetAuthorTotal(ctx context.Context, in *NeedLived, opts .
 // for forward compatibility
 type AuthorServer interface {
 	GetAuthor(context.Context, *Id) (*AuthorMesRes, error)
-	GetAuthorTotal(context.Context, *NeedLived) (*TotalRes, error)
+	GetAuthorTotal(context.Context, *Empty) (*TotalRes, error)
 	mustEmbedUnimplementedAuthorServer()
 }
 
@@ -274,7 +274,7 @@ type UnimplementedAuthorServer struct {
 func (UnimplementedAuthorServer) GetAuthor(context.Context, *Id) (*AuthorMesRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAuthor not implemented")
 }
-func (UnimplementedAuthorServer) GetAuthorTotal(context.Context, *NeedLived) (*TotalRes, error) {
+func (UnimplementedAuthorServer) GetAuthorTotal(context.Context, *Empty) (*TotalRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAuthorTotal not implemented")
 }
 func (UnimplementedAuthorServer) mustEmbedUnimplementedAuthorServer() {}
@@ -309,7 +309,7 @@ func _Author_GetAuthor_Handler(srv interface{}, ctx context.Context, dec func(in
 }
 
 func _Author_GetAuthorTotal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(NeedLived)
+	in := new(Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -321,7 +321,7 @@ func _Author_GetAuthorTotal_Handler(srv interface{}, ctx context.Context, dec fu
 		FullMethod: Author_GetAuthorTotal_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthorServer).GetAuthorTotal(ctx, req.(*NeedLived))
+		return srv.(AuthorServer).GetAuthorTotal(ctx, req.(*Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }

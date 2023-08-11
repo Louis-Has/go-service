@@ -22,9 +22,9 @@ func NewGetAuthorTotalLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ge
 	}
 }
 
-func (l *GetAuthorTotalLogic) GetAuthorTotal(in *art.NeedLived) (*art.TotalRes, error) {
+func (l *GetAuthorTotalLogic) GetAuthorTotal(in *art.Empty) (*art.TotalRes, error) {
 
-	total, err := l.svcCtx.AuthorMesModel.GetArticleTotal(l.ctx, in.Lived)
+	total, err := l.svcCtx.AuthorMesModel.GetArticleTotal(l.ctx, true)
 	if err != nil {
 		return nil, err
 	}

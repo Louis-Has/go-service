@@ -18,16 +18,15 @@ type (
 	AuthorMes    = art.AuthorMes
 	AuthorMesRes = art.AuthorMesRes
 	AuthorTotal  = art.AuthorTotal
+	Empty        = art.Empty
 	Id           = art.Id
-	NeedLived    = art.NeedLived
-	NilRes       = art.NilRes
 	TotalRes     = art.TotalRes
 
 	ArticleZrpcClient interface {
 		GetServer(ctx context.Context, in *Id, opts ...grpc.CallOption) (*ArticleRes, error)
 		PostServer(ctx context.Context, in *Article, opts ...grpc.CallOption) (*ArticleRes, error)
 		PutServer(ctx context.Context, in *ArticleRes, opts ...grpc.CallOption) (*ArticleRes, error)
-		DeleteServer(ctx context.Context, in *Id, opts ...grpc.CallOption) (*NilRes, error)
+		DeleteServer(ctx context.Context, in *Id, opts ...grpc.CallOption) (*Empty, error)
 	}
 
 	defaultArticleZrpcClient struct {
@@ -56,7 +55,7 @@ func (m *defaultArticleZrpcClient) PutServer(ctx context.Context, in *ArticleRes
 	return client.PutServer(ctx, in, opts...)
 }
 
-func (m *defaultArticleZrpcClient) DeleteServer(ctx context.Context, in *Id, opts ...grpc.CallOption) (*NilRes, error) {
+func (m *defaultArticleZrpcClient) DeleteServer(ctx context.Context, in *Id, opts ...grpc.CallOption) (*Empty, error) {
 	client := art.NewArticleClient(m.cli.Conn())
 	return client.DeleteServer(ctx, in, opts...)
 }

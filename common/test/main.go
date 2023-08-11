@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"go-service/internal/log"
+	"go-service/common/log"
 	"go.uber.org/zap"
 )
 
@@ -36,7 +36,7 @@ func main() {
 	for i := 1; i < 25; i++ {
 		switch i % 4 {
 		case 0:
-			logger.Debug("this is Debug", zap.Int("ik", i))
+			logger.logger.Debug("this is Debug", zap.Int("ik", i))
 		case 1:
 			logger.Info("this is Info", zap.Int("ik", i))
 		case 2:

@@ -1,0 +1,29 @@
+Name: demo1-gateway
+Host: localhost
+Port: 8089
+Upstreams:
+  - Grpc:
+      Target: 0.0.0.0:8080
+    # protoset mode
+    ProtoSets:
+      - gateway/article.pb
+    # Mappings can also be written in proto options
+    Mappings:
+      - Method: get
+        Path: /article/:id
+        RpcPath: article.article/getServer
+      - Method: post
+        Path: /article
+        RpcPath: article.article/postServer
+      - Method: put
+        Path: /article
+        RpcPath: article.article/putServer
+      - Method: delete
+        Path: /article
+        RpcPath: article.article/deleteServer
+      - Method: get
+        Path: /author/:id
+        RpcPath: article.author/getAuthor
+      - Method: get
+        Path: /totalAuthor
+        RpcPath: article.author/getAuthorTotal

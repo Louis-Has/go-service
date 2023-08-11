@@ -37,7 +37,7 @@ func (s *ArticleServer) PutServer(ctx context.Context, in *art.ArticleRes) (*art
 	return l.PutServer(in)
 }
 
-func (s *ArticleServer) DeleteServer(ctx context.Context, in *art.Id) (*art.NilRes, error) {
+func (s *ArticleServer) DeleteServer(ctx context.Context, in *art.Id) (*art.Empty, error) {
 	l := articlelogic.NewDeleteServerLogic(ctx, s.svcCtx)
 	return l.DeleteServer(in)
 }

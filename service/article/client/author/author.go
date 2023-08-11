@@ -18,14 +18,13 @@ type (
 	AuthorMes    = art.AuthorMes
 	AuthorMesRes = art.AuthorMesRes
 	AuthorTotal  = art.AuthorTotal
+	Empty        = art.Empty
 	Id           = art.Id
-	NeedLived    = art.NeedLived
-	NilRes       = art.NilRes
 	TotalRes     = art.TotalRes
 
 	Author interface {
 		GetAuthor(ctx context.Context, in *Id, opts ...grpc.CallOption) (*AuthorMesRes, error)
-		GetAuthorTotal(ctx context.Context, in *NeedLived, opts ...grpc.CallOption) (*TotalRes, error)
+		GetAuthorTotal(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*TotalRes, error)
 	}
 
 	defaultAuthor struct {
@@ -44,7 +43,7 @@ func (m *defaultAuthor) GetAuthor(ctx context.Context, in *Id, opts ...grpc.Call
 	return client.GetAuthor(ctx, in, opts...)
 }
 
-func (m *defaultAuthor) GetAuthorTotal(ctx context.Context, in *NeedLived, opts ...grpc.CallOption) (*TotalRes, error) {
+func (m *defaultAuthor) GetAuthorTotal(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*TotalRes, error) {
 	client := art.NewAuthorClient(m.cli.Conn())
 	return client.GetAuthorTotal(ctx, in, opts...)
 }

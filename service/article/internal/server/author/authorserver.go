@@ -27,7 +27,7 @@ func (s *AuthorServer) GetAuthor(ctx context.Context, in *art.Id) (*art.AuthorMe
 	return l.GetAuthor(in)
 }
 
-func (s *AuthorServer) GetAuthorTotal(ctx context.Context, in *art.NeedLived) (*art.TotalRes, error) {
+func (s *AuthorServer) GetAuthorTotal(ctx context.Context, in *art.Empty) (*art.TotalRes, error) {
 	l := authorlogic.NewGetAuthorTotalLogic(ctx, s.svcCtx)
 	return l.GetAuthorTotal(in)
 }

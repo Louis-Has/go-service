@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"go-service/common/sorts"
-	"go-service/internal/utils"
+	"go-service/common/utils"
 	"math/rand"
 	"testing"
 	"time"

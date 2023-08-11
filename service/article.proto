@@ -6,41 +6,40 @@ option go_package = "./art";
 
 
 message Id {
-  int64 Id = 1;
+  int64 id = 1;
 }
 
-message nilRes {}
-
+message Empty {}
 
 message ArticleRes {
-  int64 Id = 1;
-  string Type = 2 ;
-  string Content = 3 ;
-  string Author = 4 ;
+  int64 id = 1;
+  string type = 2 ;
+  string content = 3 ;
+  string author = 4 ;
 }
 
 message Article {
-  string Type = 2 ;
-  string Content = 3 ;
-  string Author = 4 ;
+  string type = 2 ;
+  string content = 3 ;
+  string author = 4 ;
 }
 
 service article {
   rpc getServer(Id) returns (ArticleRes);
   rpc postServer(Article) returns (ArticleRes);
   rpc putServer(ArticleRes) returns (ArticleRes);
-  rpc deleteServer(Id) returns(nilRes);
+  rpc deleteServer(Id) returns(Empty);
 }
 
 message AuthorMes {
-  int64 Id = 1;
-  string Author = 2;
-  bool  SignedPerson = 3;
-  int64 Cash = 4;
+  int64 id = 1;
+  string author = 2;
+  bool  signedPerson = 3;
+  int64 cash = 4;
 }
 
 message AuthorMesRes {
-  repeated AuthorMes Authors = 1;
+  repeated AuthorMes authors = 1;
 }
 
 message AuthorTotal {
@@ -51,15 +50,12 @@ message AuthorTotal {
   int64 cashSum = 5;
 }
 
-message NeedLived {
-  bool lived = 1;
-}
 
 message TotalRes{
-  repeated AuthorTotal  AuthorTotals = 1;
+  repeated AuthorTotal  authorTotals = 1;
 }
 
 service author {
   rpc getAuthor(Id) returns (AuthorMesRes);
-  rpc getAuthorTotal(NeedLived) returns (TotalRes);
+  rpc getAuthorTotal(Empty) returns (TotalRes);
 }
