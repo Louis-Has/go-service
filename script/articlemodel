@@ -1,0 +1,92 @@
+package script
+
+import (
+	"context"
+	"database/sql"
+	"github.com/jinzhu/copier"
+	"github.com/zeromicro/go-zero/core/stores/cache"
+	"github.com/zeromicro/go-zero/core/stores/sqlx"
+	myError "go-service/internal/error"
+	"go-service/internal/model"
+	"time"
+)
+
+var _ ArticleModel = (*customArticleModel)(nil)
+
+type (
+	// ArticleModel is an interface to be customized, add more methods here,
+	// and implement the added methods in customArticleModel.
+	ArticleModel interface {
+		model.articleModel
+		checkDeleted(ctx context.Context, id int64) (*model.Article, error)
+		SoftFindOne(ctx context.Context, id int64) (*model.Article, error)
+		SoftUpdate(ctx context.Context, data *model.Article) (*model.Article, error)
+		SoftDelete(ctx context.Context, id int64) error
+	}
+
+	customArticleModel struct {
+		*model.defaultArticleModel
+	}
+)
+
+// NewArticleModel returns a model for the database table.
+func NewArticleModel(conn sqlx.SqlConn, c cache.CacheConf, opts ...cache.Option) ArticleModel {
+	return &customArticleModel{
+		defaultArticleModel: model.newArticleModel(conn, c, opts...),
+	}
+}
+
+func (c *customArticleModel) checkDeleted(ctx context.Context, id int64) (*model.Article, error) {
+	findOne, err := c.FindOne(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	if findOne.DeletedAt.Valid == true {
+		return nil, myError.LoggedOutErr
+	}
+
+	return findOne, nil
+}
+
+func (c *customArticleModel) SoftFindOne(ctx context.Context, id int64) (*model.Article, error) {
+	checkDeleted, err := c.checkDeleted(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	return checkDeleted, nil
+}
+
+func (c *customArticleModel) SoftUpdate(ctx context.Context, data *model.Article) (*model.Article, error) {
+	// check deleted state
+	checkDeleted, err := c.checkDeleted(ctx, data.Id)
+	if err != nil {
+		return nil, err
+	}
+
+	// implement incremental updates
+	err = copier.Copy(checkDeleted, data)
+	if err != nil {
+		return nil, err
+	}
+
+	// update
+	err = c.Update(ctx, data)
+	if err != nil {
+		return nil, err
+	}
+	return checkDeleted, nil
+}
+
+func (c *customArticleModel) SoftDelete(ctx context.Context, id int64) error {
+	var tmp *model.Article
+	tmp.Id = id
+	tmp.DeletedAt = sql.NullTime{
+		Time:  time.Time{},
+		Valid: true,
+	}
+
+	_, err := c.SoftUpdate(ctx, tmp)
+	return err
+}

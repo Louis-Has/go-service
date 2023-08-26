@@ -1,0 +1,17 @@
+Name: demo1-gateway
+Host: localhost
+Port: 8090
+Upstreams:
+  - Grpc:
+      Target: 0.0.0.0:8080
+    # protoset mode
+    ProtoSets:
+      - gateway/user_mes.pb
+    # Mappings can also be written in proto options
+    Mappings:
+      - Method: get
+        Path: /user/:id
+        RpcPath: testDb.user_mes_model/get_user_mes
+      - Method: post
+        Path: /user
+        RpcPath: testDb.user_mes_model/post_user_mes

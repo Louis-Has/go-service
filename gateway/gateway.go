@@ -2,12 +2,13 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/gateway"
 )
 
-var configFile = flag.String("f", "etc/gateway.yaml", "config file")
+var configFile = flag.String("f", "gateway/gateway.yaml", "config file")
 
 func init() {
 	// set log
@@ -16,7 +17,7 @@ func init() {
 		Encoding: "plain",
 	}
 	logx.MustSetup(logConf)
-	logx.DisableStat()
+	logx.SetLevel(logx.ErrorLevel)
 }
 
 func main() {
@@ -26,5 +27,7 @@ func main() {
 	conf.MustLoad(*configFile, &c)
 	gw := gateway.MustNewServer(c)
 	defer gw.Stop()
+
+	fmt.Printf("Starting gateway at %v...\n", c.Port)
 	gw.Start()
 }

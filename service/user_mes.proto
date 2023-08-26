@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package testDb;
+
+option go_package = ".";
+
+message reqID {
+  int64 id = 1 ;
+}
+
+message user {
+  string user_name = 1;
+  int64  signed_person = 2;
+}
+
+message user_arr {
+  repeated user users = 1;
+}
+
+service user_mes_model {
+  rpc get_user_mes(reqID) returns (user);
+  rpc post_user_mes(user) returns (user);
+}
+

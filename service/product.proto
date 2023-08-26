@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package testDb;
+
+option go_package = ".";
+
+message Empty {
+}
+
+message view_product {
+  string category = 1;
+  string product_name = 2;
+  string subtitle = 3;
+  float price = 4;
+  int64  stock = 5;
+}
+
+service product_model {
+  rpc get_product_model(Empty)  returns (view_product);
+}

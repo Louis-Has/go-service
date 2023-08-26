@@ -7,29 +7,37 @@ protoc --go_out=./proto/. \
 
 ```
 
-model
+model datasource
 
 ```bash
 goctl model mysql datasource \
-  -url="root:development@tcp(localhost:3306)/testDB" -t="*" \
+  -url="root:development@tcp(localhost:3306)/testDB" \
+  -t="order,order_detail,order_receive_mes,product,product_category,user_mes" \
   -i created_at,updated_at \
-  -d=./internal/model
+  -d=./internal/model -c
 ```
 
-rpc
+rpc user_mes
 
 ```bash
-goctl rpc protoc ./service/*.proto \
---go_out=./service/pb --go-grpc_out=./service/pb \
---zrpc_out=./service/article -m
+goctl rpc protoc ./service/user_mes.proto \
+--go_out=./internal/pb --go-grpc_out=./internal/pb \
+--zrpc_out=./service/user_mes -m
+```
+
+rpc product
+
+```bash
+goctl rpc protoc ./service/product.proto \
+--go_out=./internal/pb --go-grpc_out=./internal/pb \
+--zrpc_out=./service/product -m
 ```
 
 gateway
 
 ```bash
-protoc --descriptor_set_out=gateway/article.pb service/article.proto
+protoc --descriptor_set_out=gateway/user_mes.pb service/user_mes.proto
 ```
-
 
 api
 
