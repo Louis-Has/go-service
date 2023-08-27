@@ -15,3 +15,12 @@ Upstreams:
       - Method: post
         Path: /user
         RpcPath: testDb.user_mes_model/post_user_mes
+
+  - Grpc:
+      Target: 0.0.0.0:8081
+    ProtoSets:
+      - gateway/product.pb
+    Mappings:
+      - Method: get
+        Path: /viewProduct
+        RpcPath: testDb.product_model/get_product_model

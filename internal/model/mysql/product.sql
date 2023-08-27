@@ -40,7 +40,7 @@ CREATE TABLE `product`
     KEY `stock` (`stock`),
     KEY `status` (`status`)
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 8
+  AUTO_INCREMENT = 9
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci COMMENT ='商品表';
 
@@ -69,6 +69,9 @@ VALUES (6, '2023-08-25 17:49:14', '2023-08-25 18:01:41', NULL, '电风扇', '', 
 INSERT INTO `product` (`id`, `created_at`, `updated_at`, `deleted_at`, `product_name`, `subtitle`, `cate_id`, `price`,
                        `stock`, `status`)
 VALUES (7, '2023-08-25 17:49:52', '2023-08-25 18:01:33', NULL, '夹克', '', 4, 200.00, 12, 0);
+INSERT INTO `product` (`id`, `created_at`, `updated_at`, `deleted_at`, `product_name`, `subtitle`, `cate_id`, `price`,
+                       `stock`, `status`)
+VALUES (8, '2023-08-25 17:49:52', '2023-08-25 18:01:33', NULL, '牛奶', '', 1, 20.00, 8, 0);
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

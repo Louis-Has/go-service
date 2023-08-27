@@ -17,26 +17,33 @@ goctl model mysql datasource \
   -d=./internal/model -c
 ```
 
-rpc user_mes
+rpc & gateway : user_mes
 
 ```bash
 goctl rpc protoc ./service/user_mes.proto \
 --go_out=./internal/pb --go-grpc_out=./internal/pb \
 --zrpc_out=./service/user_mes -m
+
+protoc --descriptor_set_out=gateway/user_mes.pb service/user_mes.proto
+
 ```
 
-rpc product
+rpc & gateway : product
 
 ```bash
 goctl rpc protoc ./service/product.proto \
 --go_out=./internal/pb --go-grpc_out=./internal/pb \
 --zrpc_out=./service/product -m
+
+protoc --descriptor_set_out=gateway/product.pb service/product.proto
+
 ```
 
 gateway
 
 ```bash
-protoc --descriptor_set_out=gateway/user_mes.pb service/user_mes.proto
+```
+```bash
 ```
 
 api

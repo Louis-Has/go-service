@@ -7,13 +7,18 @@ option go_package = ".";
 message Empty {
 }
 
-message view_product {
-  string category = 1;
-  string product_name = 2;
+message product {
+  string product_name = 1;
+  string category = 2;
   string subtitle = 3;
   float price = 4;
   int64  stock = 5;
 }
+
+message view_product {
+  repeated product products = 1;
+}
+
 
 service product_model {
   rpc get_product_model(Empty)  returns (view_product);
