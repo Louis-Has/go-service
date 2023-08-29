@@ -1,11 +1,10 @@
 
-³
-
+À
 service/order.prototestDb"à
 	order_req
 user_id (RuserId/
 order_receive_mes_id (RorderReceiveMesId2
-details (2.testDb.order_detail_resRdetails
+details (2.testDb.order_detail_reqRdetails
 payment (Rpayment!
 payment_type (RpaymentType
 postage (Rpostage"
@@ -27,7 +26,12 @@ product_id (R	productId,
 totalPrice
 
 created_at (	R	createdAt!
-product_name (	RproductName"ù
+product_name (	RproductName"Š
+order_detail_req
+
+product_id (R	productId,
+current_unit_price (RcurrentUnitPrice)
+product_quantity (RproductQuantity"ù
 whole_order
 id (Rid
 user_id (RuserId2

@@ -14,6 +14,7 @@ import (
 
 type (
 	Id             = __.Id
+	OrderDetailReq = __.OrderDetailReq
 	OrderDetailRes = __.OrderDetailRes
 	OrderReceive   = __.OrderReceive
 	OrderReq       = __.OrderReq
