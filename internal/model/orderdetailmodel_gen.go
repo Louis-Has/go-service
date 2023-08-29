@@ -44,7 +44,7 @@ type (
 		UpdatedAt        time.Time    `db:"updated_at"`         // 更新时间
 		DeletedAt        sql.NullTime `db:"deleted_at"`         // 删除时间
 		OrderId          int64        `db:"order_id"`           // 订单id
-		UserId           string       `db:"user_id"`            // 用户id
+		UserId           int64        `db:"user_id"`            // 用户id
 		ProductId        int64        `db:"product_id"`         // 商品id
 		CurrentUnitPrice float64      `db:"current_unit_price"` // 生成订单时的商品单价，单位是元,保留两位小数
 		ProductQuantity  int64        `db:"product_quantity"`   // 商品数量

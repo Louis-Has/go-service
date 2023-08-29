@@ -43,7 +43,7 @@ type (
 		CreatedAt         time.Time    `db:"created_at"`           // 创建时间
 		UpdatedAt         time.Time    `db:"updated_at"`           // 更新时间
 		DeletedAt         sql.NullTime `db:"deleted_at"`           // 删除时间
-		UserId            string       `db:"user_id"`              // 用户id
+		UserId            int64        `db:"user_id"`              // 用户id
 		OrderReceiveMesId int64        `db:"order_receive_mes_id"` // 收货信息表id
 		Payment           float64      `db:"payment"`              // 实际付款金额,单位是元,保留两位小数
 		PaymentType       int64        `db:"payment_type"`         // 支付类型,1-在线支付

@@ -24,3 +24,18 @@ Upstreams:
       - Method: get
         Path: /viewProduct
         RpcPath: testDb.product_model/get_product_model
+
+  - Grpc:
+      Target: 0.0.0.0:8082
+    ProtoSets:
+      - gateway/order.pb
+    Mappings:
+      - Method: post
+        Path: /order
+        RpcPath: testDb.order_service/post_order_mes
+      - Method: get
+        Path: /Order/:id
+        RpcPath: testDb.order_service/get_order
+      - Method: get
+        Path: /userOrder/:id
+        RpcPath: testDb.order_service/get_user_order

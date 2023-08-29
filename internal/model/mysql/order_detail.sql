@@ -28,7 +28,7 @@ CREATE TABLE `order_detail`
     `updated_at`         datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP comment '更新时间',
     `deleted_at`         datetime DEFAULT NULL comment '删除时间',
     `order_id`           bigint          NOT NULL comment '订单id',
-    `user_id`            varchar(255)    NOT NULL comment '用户id',
+    `user_id`            bigint          NOT NULL comment '用户id',
     `product_id`         bigint          NOT NULL comment '商品id',
     `current_unit_price` decimal(20, 2)  NOT NULL comment '生成订单时的商品单价，单位是元,保留两位小数',
     `product_quantity`   bigint          NOT NULL comment '商品数量',

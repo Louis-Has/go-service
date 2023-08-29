@@ -44,7 +44,7 @@ type (
 		UpdatedAt    time.Time    `db:"updated_at"`    // 更新时间
 		DeletedAt    sql.NullTime `db:"deleted_at"`    // 删除时间
 		UserName     string       `db:"user_name"`     // 用户名
-		SignedPerson int64        `db:"signed_person"` // 标记用户
+		SignedPerson int64        `db:"signed_person"` // 标记用户，0表示默认；1表示正式用户；2表示VIP
 	}
 )
 

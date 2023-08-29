@@ -1,0 +1,12 @@
+Name: order.rpc
+ListenOn: 0.0.0.0:8082
+
+UserMesServer: 0.0.0.0:8080
+
+Mysql:
+  DataSource: "root:development@tcp(localhost:3306)/testDB?parseTime=True&loc=Asia%2FShanghai"
+
+CacheRedis:
+  - Host: 0.0.0.0:6379
+    Type: node
+    Pass:

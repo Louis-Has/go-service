@@ -19,7 +19,6 @@ message view_product {
   repeated product products = 1;
 }
 
-
 service product_model {
   rpc get_product_model(Empty)  returns (view_product);
 }

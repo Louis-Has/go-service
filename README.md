@@ -25,7 +25,6 @@ goctl rpc protoc ./service/user_mes.proto \
 --zrpc_out=./service/user_mes -m
 
 protoc --descriptor_set_out=gateway/user_mes.pb service/user_mes.proto
-
 ```
 
 rpc & gateway : product
@@ -36,7 +35,16 @@ goctl rpc protoc ./service/product.proto \
 --zrpc_out=./service/product -m
 
 protoc --descriptor_set_out=gateway/product.pb service/product.proto
+```
 
+rpc & gateway : order
+
+```bash
+goctl rpc protoc ./service/order.proto \
+--go_out=./internal/pb --go-grpc_out=./internal/pb \
+--zrpc_out=./service/order -m
+
+protoc --descriptor_set_out=gateway/order.pb service/order.proto
 ```
 
 gateway

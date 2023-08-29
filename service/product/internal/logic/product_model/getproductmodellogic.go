@@ -47,7 +47,6 @@ func (l *GetProductModelLogic) GetProductModel(in *__.Empty) (*__.ViewProduct, e
 			Price:       float32(v.Price),
 			Stock:       v.Stock,
 		})
-
 	}
 
 	return res, nil

@@ -27,7 +27,7 @@ CREATE TABLE `order`
     `created_at`           datetime       DEFAULT CURRENT_TIMESTAMP comment '创建时间',
     `updated_at`           datetime       DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP comment '更新时间',
     `deleted_at`           datetime       DEFAULT NULL comment '删除时间',
-    `user_id`              varchar(255)    NOT NULL comment '用户id',
+    `user_id`              bigint          NOT NULL comment '用户id',
     `order_receive_mes_id` bigint         DEFAULT 0 COMMENT '收货信息表id',
     `payment`              decimal(20, 2) DEFAULT 0 COMMENT '实际付款金额,单位是元,保留两位小数',
     `payment_type`         tinyint(4)     DEFAULT 1 COMMENT '支付类型,1-在线支付',
@@ -37,7 +37,8 @@ CREATE TABLE `order`
     `send_at`              datetime       DEFAULT NULL comment '发货时间',
     `completed_at`         datetime       DEFAULT NULL comment '订单完成时间',
     PRIMARY KEY (`id`),
-    KEY `deleted_at` (`deleted_at`)
+    KEY `deleted_at` (`deleted_at`),
+    key `user_id` (`user_id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
