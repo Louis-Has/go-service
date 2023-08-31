@@ -47,12 +47,6 @@ goctl rpc protoc ./service/order.proto \
 protoc --descriptor_set_out=gateway/order.pb service/order.proto
 ```
 
-gateway
-
-```bash
-```
-```bash
-```
 
 api
 
