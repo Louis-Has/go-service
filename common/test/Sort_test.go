@@ -38,15 +38,14 @@ func Fish() {
 var wg sync.WaitGroup
 
 func TestGoroutine(t *testing.T) {
-
 	for i := 0; i < 10; i++ {
 		wg.Add(1)
 
-		go Dog()
 		go Cat()
 		go Fish()
+		go Dog()
 	}
-	fish <- struct{}{}
+	dog <- struct{}{}
 
 	wg.Wait()
 }
@@ -141,11 +140,12 @@ func TestEvaluate(t *testing.T) {
 }
 
 // todo 台阶问题
+// 台阶问题，假如对于上台阶，可以一次上一阶，也可以一次上两阶，写一个方法，实现输入台阶数，输出可以有多少种上法。
 
 func countStair(step int) int {
 	if step == 0 || step == 1 {
 		return 1
-	} else if step == 1 {
+	} else if step == 2 {
 		return 2
 	} else {
 		a := 0
@@ -168,4 +168,18 @@ func TestCountStair(t *testing.T) {
 
 	ways := countStair(steps)
 	fmt.Printf("对于 %d 个台阶，有 %d 种上法\n", steps, ways)
+}
+
+func TestChan(t *testing.T) {
+
+	poolMax := 3
+	pool := make(chan int, poolMax)
+
+	for i := 0; i < 100; i++ {
+		pool <- 1
+		go func(i int) {
+			n := <-pool
+			fmt.Printf(" this is %v---pool num is %v\n", i, n)
+		}(i)
+	}
 }
