@@ -170,16 +170,99 @@ func TestCountStair(t *testing.T) {
 	fmt.Printf("对于 %d 个台阶，有 %d 种上法\n", steps, ways)
 }
 
-func TestChan(t *testing.T) {
+func TestChan(t *testing.T) { // mihoyo
 
 	poolMax := 3
 	pool := make(chan int, poolMax)
 
 	for i := 0; i < 100; i++ {
-		pool <- 1
+		pool <- i
+		go func() {
+			u := <-pool
+			fmt.Printf("this is %v\n", u)
+		}()
+	}
+
+	close(pool)
+}
+
+func TestCount(t *testing.T) { // con slice
+	buffer := make(chan int)
+	var sli []int
+
+	// cus
+	go func() {
+		defer close(buffer)
+		for i := range buffer {
+			sli = append(sli, i)
+		}
+	}()
+
+	//pro
+	for i := 0; i < 1000; i++ {
+		wg.Add(1)
 		go func(i int) {
-			n := <-pool
-			fmt.Printf(" this is %v---pool num is %v\n", i, n)
+			defer wg.Done()
+			buffer <- 1
 		}(i)
 	}
+
+	wg.Wait()
+	fmt.Printf("this is len: %v\n", len(sli))
+}
+
+func TestCont(t *testing.T) { // slice con error
+	sli := make([]int, 0)
+
+	for i := 0; i < 1000; i++ {
+		i := i
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			sli = append(sli, i)
+		}()
+	}
+
+	wg.Wait()
+	fmt.Printf("this is len: %v\n", len(sli))
+}
+
+func TestArr(t *testing.T) { // map con panic
+	arr := make(map[int]int)
+
+	for i := 0; i < 1000; i++ {
+		i := i
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			arr[i] = i
+		}()
+	}
+
+	wg.Wait()
+	fmt.Printf("this is len: %v\n", len(arr))
+}
+
+//  1. 给定无序整数数组，打印最长上升子序列，例如[10,9,2,5,3,7,20,18], 打印[2,5,7,20]
+
+func TestSortLen(t *testing.T) {
+	toSortArr := []int{10, 9, 2, 5, 3, 7, 20, 18}
+
+	minIndex := 0
+	min := toSortArr[minIndex]
+	for i, v := range toSortArr {
+		if v < min {
+			minIndex = i
+			min = v
+		}
+	}
+
+	result := []int{min}
+	for i := minIndex; i < len(toSortArr); i++ {
+		if toSortArr[i] > result[len(result)-1] {
+			result = append(result, toSortArr[i])
+		}
+	}
+
+	fmt.Printf("this is %v\n", result)
 }
