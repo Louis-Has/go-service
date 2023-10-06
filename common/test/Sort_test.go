@@ -245,24 +245,34 @@ func TestArr(t *testing.T) { // map con panic
 
 //  1. 给定无序整数数组，打印最长上升子序列，例如[10,9,2,5,3,7,20,18], 打印[2,5,7,20]
 
-func TestSortLen(t *testing.T) {
+func TestTrueSort(t *testing.T) {
 	nums := []int{10, 9, 2, 5, 3, 7, 20, 18}
 
-	minKey := 0
-	minValue := nums[minKey]
-	for k, v := range nums {
-		if v < minValue {
-			minValue = v
-			minKey = k
+	var res [][]int
+
+	res = getLangSort(nums)
+	maxI := 0
+
+	for k, v := range res {
+		fmt.Printf("this is %v nums %v :%v\n", k, len(v), v)
+		if len(v) > len(res[maxI]) {
+			maxI = k
 		}
 	}
+	fmt.Printf("so the longest sort is %v\n", res[maxI])
+}
 
-	res := []int{minValue}
-	for i := minKey; i < len(nums); i++ {
-		if nums[i] > res[len(res)-1] {
-			res = append(res, nums[i])
+func getLangSort(nums []int) [][]int {
+	var res [][]int
+	for i := 0; i < len(nums); i++ {
+		var tic []int
+		for u := i; u < len(nums); u++ {
+			if len(tic) == 0 || tic[len(tic)-1] <= nums[u] {
+				tic = append(tic, nums[u])
+			}
 		}
-	}
 
-	fmt.Printf("this is %v\n", res)
+		res = append(res, tic)
+	}
+	return res
 }
