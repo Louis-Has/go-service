@@ -245,34 +245,35 @@ func TestArr(t *testing.T) { // map con panic
 
 //  1. 给定无序整数数组，打印最长上升子序列，例如[10,9,2,5,3,7,20,18], 打印[2,5,7,20]
 
-func TestTrueSort(t *testing.T) {
-	nums := []int{10, 9, 2, 5, 3, 7, 20, 18}
+func TestGetSortedSet(t *testing.T) {
+	nums := []int{10, 11, 12, 11, 14, 17, 18, 9, 2, 5, 3, 7, 20, 18}
 
-	var res [][]int
-
-	res = getLangSort(nums)
+	res := getLongest(nums)
 	maxI := 0
-
 	for k, v := range res {
-		fmt.Printf("this is %v nums %v :%v\n", k, len(v), v)
-		if len(v) > len(res[maxI]) {
+		fmt.Printf("this is %v\n", v)
+		if len(res[maxI]) < len(v) {
 			maxI = k
 		}
 	}
-	fmt.Printf("so the longest sort is %v\n", res[maxI])
+	fmt.Printf("so the longest set %v\n", res[maxI])
 }
 
-func getLangSort(nums []int) [][]int {
+func getLongest(nums []int) [][]int {
 	var res [][]int
-	for i := 0; i < len(nums); i++ {
-		var tic []int
-		for u := i; u < len(nums); u++ {
-			if len(tic) == 0 || tic[len(tic)-1] <= nums[u] {
-				tic = append(tic, nums[u])
-			}
-		}
 
-		res = append(res, tic)
+	for i := 0; i < len(nums); i++ {
+		if i == 0 || nums[i-1] > nums[i] {
+			cha := []int{nums[i]}
+
+			for u := i + 1; u < len(nums); u++ {
+				if cha[len(cha)-1] <= nums[u] {
+					cha = append(cha, nums[u])
+				}
+			}
+			res = append(res, cha)
+		}
 	}
+
 	return res
 }
