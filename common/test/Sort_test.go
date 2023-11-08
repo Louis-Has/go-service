@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/sony/sonyflake"
 	"math"
+	"sort"
 	"sync"
 	"testing"
 )
@@ -170,6 +171,7 @@ func TestCountStair(t *testing.T) {
 	fmt.Printf("对于 %d 个台阶，有 %d 种上法\n", steps, ways)
 }
 
+// try to base
 func TestChan(t *testing.T) { // mihoyo
 
 	poolMax := 3
@@ -177,13 +179,43 @@ func TestChan(t *testing.T) { // mihoyo
 
 	for i := 0; i < 100; i++ {
 		pool <- i
+		wg.Add(1)
 		go func() {
 			u := <-pool
 			fmt.Printf("this is %v\n", u)
+			defer wg.Done()
 		}()
 	}
 
+	wg.Wait()
 	close(pool)
+}
+
+// mihoya 2
+
+func TestSortedMap(t *testing.T) {
+	// 创建一个map
+	myMap := map[string]int{
+		"b": 2,
+		"a": 1,
+		"c": 3,
+	}
+
+	// 创建一个存储有序键的切片
+	keys := make([]string, 0, len(myMap))
+	for k := range myMap {
+		fmt.Printf("k: %v \n", k)
+		keys = append(keys, k)
+	}
+
+	// 按顺序排序键
+	sort.Strings(keys)
+
+	// 遍历有序键的切片并访问map
+	for _, k := range keys {
+		v := myMap[k]
+		fmt.Printf("Key: %s, Value: %d\n", k, v)
+	}
 }
 
 func TestCount(t *testing.T) { // con slice
